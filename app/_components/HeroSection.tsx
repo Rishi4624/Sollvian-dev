@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import coverImg from '@/app/_lib/solvian_cover.jpeg';
+import VersionBadge from '@/app/_components/VersionBadge';
 
 interface HeroSectionProps {
   onDownload: () => void;
@@ -33,6 +34,9 @@ export default function HeroSection({ onDownload }: HeroSectionProps) {
               Download package
             </button>
           </div>
+
+          {/* Version badge */}
+          <VersionBadge />
         </div>
 
         {/* Cover image */}

@@ -129,6 +129,7 @@ export default function EmailModal({ onClose }: EmailModalProps) {
             <button
               type="button"
               onClick={() => { window.location.href = '/api/download'; }}
+              
               className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-bold text-black text-sm bg-cyan-400 hover:bg-cyan-300 transition-all"
               style={{ boxShadow: '0 0 16px rgba(0, 212, 255, 0.5)' }}
             >
