@@ -19,7 +19,6 @@ export default function HeroSection({ onDownload }: HeroSectionProps) {
     const video = videoRef.current;
     if (!video) return;
 
-    video.muted = false;
     video.play().catch(() => { });
 
     const observer = new IntersectionObserver(
@@ -88,6 +87,8 @@ export default function HeroSection({ onDownload }: HeroSectionProps) {
                 src={demoVideo}
                 controls
                 playsInline
+                autoPlay
+                muted
                 preload="auto"
                 onCanPlay={() => setIsVideoReady(true)}
                 style={{ opacity: isVideoReady ? 1 : 0 }}
