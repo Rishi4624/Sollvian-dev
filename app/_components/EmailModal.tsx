@@ -17,6 +17,8 @@ export default function EmailModal({ onClose }: EmailModalProps) {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [showDownload, setShowDownload] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadMessage, setUploadMessage] = useState('');
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -29,22 +31,44 @@ export default function EmailModal({ onClose }: EmailModalProps) {
     }
   }
 
+  async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    setUploadMessage('');
+    
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    try {
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setUploadMessage(`Success! File available at: ${data.url}`);
+      } else {
+        setUploadMessage(`Error: ${data.error}`);
+      }
+    } catch (err) {
+      setUploadMessage('Upload failed');
+    } finally {
+      setIsUploading(false);
+    }
+  }
+
   return (
     /* Backdrop */
     <div
       onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center"
-      style={{ background: 'rgba(0, 0, 0, 0.75)', backdropFilter: 'blur(6px)' }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-[6px]"
     >
       {/* Modal Box */}
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-md mx-4 rounded-2xl p-8"
-        style={{
-          background: 'rgb(7, 20, 48)',
-          border: '1px solid rgba(0, 212, 255, 0.4)',
-          boxShadow: '0 0 40px rgba(0, 212, 255, 0.2)',
-        }}
+        className="relative w-full max-w-md mx-4 rounded-2xl p-8 bg-[#071430] border border-cyan-400/40 shadow-[0_0_40px_rgba(0,212,255,0.2)]"
       >
         {/* Close button */}
         <button
@@ -57,11 +81,7 @@ export default function EmailModal({ onClose }: EmailModalProps) {
         {/* Email icon */}
         <div className="flex justify-center mb-4">
           <div
-            className="w-12 h-12 rounded-full flex items-center justify-center"
-            style={{
-              background: 'rgba(0, 212, 255, 0.12)',
-              border: '1px solid rgba(0, 212, 255, 0.3)',
-            }}
+            className="w-12 h-12 rounded-full flex items-center justify-center bg-cyan-400/10 border border-cyan-400/30"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -101,11 +121,7 @@ export default function EmailModal({ onClose }: EmailModalProps) {
                 setShowDownload(false);
               }}
               placeholder="name@sollviantech.com"
-              className="w-full h-11 rounded-lg px-4 text-white text-sm outline-none"
-              style={{
-                background: 'rgba(2, 14, 28, 0.8)',
-                border: '1px solid rgba(0, 200, 255, 0.3)',
-              }}
+              className="w-full h-11 rounded-lg px-4 text-white text-sm outline-none bg-[#020e1c]/80 border border-[#00c8ff]/30 focus:border-cyan-400 transition-colors"
               required
               autoFocus
             />
@@ -118,37 +134,49 @@ export default function EmailModal({ onClose }: EmailModalProps) {
 
           <button
             type="submit"
-            className="w-full py-3 rounded-xl font-bold text-black text-sm bg-cyan-400 hover:bg-cyan-300 transition-all"
-            style={{ boxShadow: '0 0 16px rgba(0, 212, 255, 0.5)' }}
+            className="w-full py-3 rounded-xl font-bold text-black text-sm bg-cyan-400 hover:bg-cyan-300 transition-all shadow-[0_0_16px_rgba(0,212,255,0.5)]"
           >
             Verify &amp; Unlock
           </button>
 
-          {/* Download button on success */}
+          {/* Download & Upload section on success */}
           {showDownload && (
-            <button
-              type="button"
-              onClick={() => { window.location.href = '/api/download'; }}
-              
-              className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-bold text-black text-sm bg-cyan-400 hover:bg-cyan-300 transition-all"
-              style={{ boxShadow: '0 0 16px rgba(0, 212, 255, 0.5)' }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-4 h-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2.5}
+            <div className="flex flex-col gap-4 mt-2 pt-4 border-t border-cyan-400/20">
+              <button
+                type="button"
+                onClick={() => { window.location.href = '/api/download'; }}
+                className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-bold text-black text-sm bg-cyan-400 hover:bg-cyan-300 transition-all shadow-[0_0_16px_rgba(0,212,255,0.5)]"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 3v13m0 0l-4-4m4 4l4-4"
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 3v13m0 0l-4-4m4 4l4-4" />
+                </svg>
+                Download Now
+              </button>
+
+              <div className="relative">
+                <input
+                  type="file"
+                  onChange={handleUpload}
+                  disabled={isUploading}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
                 />
-              </svg>
-              Download Now
-            </button>
+                <button
+                  type="button"
+                  disabled={isUploading}
+                  className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-bold text-white text-sm bg-[#0a2342] border border-cyan-400/30 hover:bg-[#0d2f59] transition-all disabled:opacity-50"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 16V3m0 0l-4 4m4-4l4 4" />
+                  </svg>
+                  {isUploading ? 'Uploading...' : 'Upload File (Keep original name)'}
+                </button>
+              </div>
+              {uploadMessage && (
+                <p className={`text-xs text-center break-all ${uploadMessage.startsWith('Error') || uploadMessage.startsWith('Upload failed') ? 'text-red-400' : 'text-green-400'}`}>
+                  {uploadMessage}
+                </p>
+              )}
+            </div>
           )}
         </form>
       </div>
