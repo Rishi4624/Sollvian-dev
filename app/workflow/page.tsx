@@ -222,6 +222,24 @@ export default function WorkflowPage() {
                       playsInline
                       className="absolute inset-0 w-full h-full object-contain rounded-[2rem]"
                     />
+                  ) : current.num === '03' ? (
+                    <video
+                      src="/videos/structure_design.mp4"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="absolute inset-0 w-full h-full object-contain rounded-[2rem]"
+                    />
+                  ) : current.num === '04' ? (
+                    <video
+                      src="/videos/CRM_demo.mp4"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="absolute inset-0 w-full h-full object-contain rounded-[2rem]"
+                    />
                   ) : (
                     <>
                       <div className={`w-32 h-32 rounded-3xl bg-gradient-to-br ${current.accent} p-0.5 mb-10`}>

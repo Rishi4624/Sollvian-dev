@@ -47,29 +47,7 @@ export default function Header() {
         <div className="flex items-center justify-between gap-4 py-3 w-[min(72rem,calc(100%-2rem))] mx-auto">
           {/* Logo */}
           <a className="inline-flex items-center gap-[0.65rem] no-underline" id="brand" href="#home">
-            <svg viewBox="0 0 40 40" width="32" height="32" aria-hidden="true">
-              <defs>
-                <linearGradient id="sa-mark" x1="4" y1="4" x2="36" y2="36">
-                  <stop stopColor="#38bdf8" />
-                  <stop offset="1" stopColor="#2563eb" />
-                </linearGradient>
-              </defs>
-              <path
-                d="M20 2.5 35.5 12v16L20 37.5 4.5 28V12L20 2.5Z"
-                fill="none"
-                stroke="url(#sa-mark)"
-                strokeWidth="1.6"
-              />
-              <path
-                d="M13.2 25.2c1.4 2.2 3.8 3.4 6.8 3.4 3.6 0 6.2-1.7 6.2-4.4
-                   0-2.4-1.8-3.8-5.6-4.5l-2.2-.4c-1.7-.3-2.4-.8-2.4-1.6
-                   0-.9.9-1.5 2.5-1.5 1.8 0 3.1.6 4.1 1.9l2.3-2.3
-                   c-1.5-1.8-3.7-2.8-6.5-2.8-3.5 0-5.9 1.8-5.9 4.4
-                   0 2.3 1.7 3.7 5.4 4.4l2.3.4c1.8.3 2.5.8 2.5 1.7
-                   0 1-.9 1.6-2.7 1.6-2.1 0-3.6-.8-4.7-2.3l-2.1 2Z"
-                fill="url(#sa-mark)"
-              />
-            </svg>
+            <img src="/favicon.ico" alt="Sollvian Logo" width="32" height="32" className="object-contain rounded-md" />
             <span className="flex flex-col leading-none">
               <span className="text-[15px] font-semibold tracking-[-0.02em]">Sollvian</span>
               <span className="mt-[2px] text-[10px] font-semibold tracking-[0.16em] uppercase text-sky-300/80">AI Tech</span>
