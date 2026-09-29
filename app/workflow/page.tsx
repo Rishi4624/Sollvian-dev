@@ -209,7 +209,7 @@ export default function WorkflowPage() {
                       src="/videos/proposal_video.mp4"
                       autoPlay
                       loop
-                      muted
+
                       playsInline
                       className="absolute inset-0 w-full h-full object-contain rounded-[2rem]"
                     />
@@ -218,7 +218,7 @@ export default function WorkflowPage() {
                       src="/videos/installation_trecking.mp4"
                       autoPlay
                       loop
-                      muted
+
                       playsInline
                       className="absolute inset-0 w-full h-full object-contain rounded-[2rem]"
                     />
@@ -227,16 +227,23 @@ export default function WorkflowPage() {
                       src="/videos/structure_design.mp4"
                       autoPlay
                       loop
-                      muted
+
                       playsInline
                       className="absolute inset-0 w-full h-full object-contain rounded-[2rem]"
                     />
                   ) : current.num === '04' ? (
                     <video
-                      src="/videos/CRM_demo.mp4"
+                      src="/videos/CRM_demo_3.mp4"
                       autoPlay
                       loop
-                      muted
+                      playsInline
+                      className="absolute inset-0 w-full h-full object-contain rounded-[2rem]"
+                    />
+                  ) : current.num === '05' ? (
+                    <video
+                      src="/videos/customer_360_demo.mp4"
+                      autoPlay
+                      loop
                       playsInline
                       className="absolute inset-0 w-full h-full object-contain rounded-[2rem]"
                     />
