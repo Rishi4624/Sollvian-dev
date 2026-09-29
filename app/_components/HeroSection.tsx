@@ -89,6 +89,7 @@ export default function HeroSection({ onDownload }: HeroSectionProps) {
                 playsInline
                 autoPlay
                 muted
+                loop
                 preload="auto"
                 onCanPlay={() => setIsVideoReady(true)}
                 style={{ opacity: isVideoReady ? 1 : 0 }}
