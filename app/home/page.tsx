@@ -41,7 +41,7 @@ export default function Page() {
                 <ContactSection />
             </main>
 
-            {/* <Footer /> */}
+            <Footer />
 
             {modalOpen && <EmailModal onClose={() => setModalOpen(false)} />}
         </>

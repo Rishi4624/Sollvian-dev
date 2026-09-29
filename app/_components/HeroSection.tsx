@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+
 import { useEffect, useState, useRef } from 'react';
 import VersionBadge from '@/app/_components/VersionBadge';
 import LoadingIndicator from '@/app/_components/LoadingIndicator';
@@ -53,14 +55,13 @@ export default function HeroSection({ onDownload }: HeroSectionProps) {
             <p className="m-0 text-[12px] font-bold tracking-[0.22em] uppercase text-cyan-300/90">Smart solutions · Lasting impact</p>
             <h1 className="mt-4 mb-0 max-w-2xl text-[clamp(2rem,5vw,3rem)] tracking-[-0.03em] leading-[1.15] text-[#e8eef7]">Turning ideas into intelligent solutions</h1>
             <p className="mt-5 mb-0 max-w-2xl text-slate-300 leading-[1.7]">
-              Sollvian AI Tech builds the line from a first conversation to a
-              system that still works a year later: proposal and ROI, installation
-              tracking, solar structure design, CRM, and a true customer 360.
+              Sollvian AI Tech transforms the journey from the first customer conversation into a complete, long-term solar management system—covering Proposal & ROI, Installation Tracking, Solar Structure Design, CRM, and a comprehensive Customer 360.
+
             </p>
             <div className="flex flex-wrap gap-3 mt-8">
-              <a className="inline-flex items-center justify-center h-10 px-5 rounded-full border-0 text-sm font-medium cursor-pointer bg-cyan-400 text-[#041018] hover:bg-cyan-300 transition-colors no-underline" href="#product" id="hero-see-product">
+              <Link className="inline-flex items-center justify-center h-10 px-5 rounded-full border-0 text-sm font-medium cursor-pointer bg-cyan-400 text-[#041018] hover:bg-cyan-300 transition-colors no-underline" href="#product" id="hero-see-product">
                 See the product
-              </a>
+              </Link>
               <button
                 className="inline-flex items-center justify-center h-10 px-5 rounded-full text-sm font-medium cursor-pointer border border-white/15 bg-white/5 text-white hover:bg-white/10 transition-colors"
                 id="hero-download"
