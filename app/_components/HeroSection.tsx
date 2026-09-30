@@ -46,7 +46,7 @@ export default function HeroSection({ onDownload }: HeroSectionProps) {
   return (
     <>
       <section
-        className="relative overflow-hidden pt-14 pb-20 border-b border-white/5 bg-transparent scroll-mt-28 lg:scroll-mt-24"
+        className="relative overflow-hidden pt-14 pb-20  bg-transparent scroll-mt-28 lg:scroll-mt-24"
         id="home"
       >
 

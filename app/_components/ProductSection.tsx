@@ -134,7 +134,7 @@ export default function ProductModules() {
 
   return (
     <section
-      className="py-16 md:py-24 bg-transparent text-slate-100 min-h-screen relative overflow-hidden font-sans border-b border-white/5"
+      className="py-16 md:py-24 bg-transparent text-slate-100 min-h-screen relative overflow-hidden font-sans"
       id="product"
     >
 
