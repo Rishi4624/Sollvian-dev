@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+
 import { useState, useEffect } from 'react';
 import MobileMenu from './MobileMenu';
 import { usePathname } from 'next/navigation';
@@ -7,6 +9,7 @@ import { usePathname } from 'next/navigation';
 const NAV_ITEMS = [
   { label: 'Home', href: '/home' },
   { label: 'Workflow', href: '/workflow' },
+  { label: 'News', href: '/news' },
   { label: 'Contact', href: '/contact' },
 ];
 
@@ -40,19 +43,30 @@ export default function Header() {
     return () => observers.forEach((o) => o.disconnect());
   }, []);
 
+  const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#050d1b]/90 backdrop-blur-md">
+      <header className="sticky top-0 z-40  bg-transparent backdrop-blur-md">
         {/* ── Main row ── */}
         <div className="flex items-center justify-between gap-4 py-3 w-[min(72rem,calc(100%-2rem))] mx-auto">
           {/* Logo */}
-          <a className="inline-flex items-center gap-[0.65rem] no-underline" id="brand" href="#home">
+          <Link className="inline-flex items-center gap-[0.65rem] no-underline" id="brand" href="#home">
             <img src="/favicon.ico" alt="Sollvian Logo" width="32" height="32" className="object-contain rounded-md" />
             <span className="flex flex-col leading-none">
               <span className="text-[15px] font-semibold tracking-[-0.02em]">Sollvian</span>
               <span className="mt-[2px] text-[10px] font-semibold tracking-[0.16em] uppercase text-sky-300/80">AI Tech</span>
             </span>
-          </a>
+          </Link>
 
           {/* ── Desktop dot-rail (hidden below 1024px) ── */}
           <nav className="hidden lg:flex flex-1 justify-center px-2" aria-label="Main navigation">
@@ -63,7 +77,7 @@ export default function Header() {
                   const isActive = active === id;
                   return (
                     <li className="relative z-10 flex-1 flex flex-col items-center text-center" key={id}>
-                      <a
+                      <Link
                         href={item.href}
                         className="flex flex-col items-center gap-2 px-1 border-0 bg-transparent text-inherit cursor-pointer no-underline group"
                         aria-current={isActive ? 'true' : undefined}
@@ -72,7 +86,7 @@ export default function Header() {
                           <span className={`w-[6px] h-[6px] rounded-full bg-white transition-opacity duration-200 ${isActive ? 'opacity-90' : 'opacity-40'}`} />
                         </span>
                         <span className={`text-[11px] font-medium transition-colors duration-200 ${isActive ? 'text-cyan-200' : 'text-slate-400'}`}>{item.label}</span>
-                      </a>
+                      </Link>
                     </li>
                   );
                 })}
@@ -83,13 +97,13 @@ export default function Header() {
           {/* ── Actions ── */}
           <div className="flex items-center gap-2">
             {/* Talk to us — shows at ≥640px */}
-            <a
+            <Link
               href="#contact"
               className="hidden sm:inline-flex items-center justify-center h-10 px-5 rounded-full border-0 text-sm font-medium cursor-pointer bg-cyan-400 text-[#041018] hover:bg-cyan-300 transition-colors no-underline"
               id="talk"
             >
               Talk to us
-            </a>
+            </Link>
             {/* Hamburger — hidden at ≥1024px */}
             <button
               className="lg:hidden w-8 h-8 rounded-lg border border-white/15 bg-white/5 text-white flex items-center justify-center cursor-pointer p-0"
@@ -112,7 +126,7 @@ export default function Header() {
                 const isActive = active === id;
                 return (
                   <li className="relative z-10 flex-1 flex flex-col items-center text-center" key={id}>
-                    <a
+                    <Link
                       href={item.href}
                       className="flex flex-col items-center gap-2 px-1 border-0 bg-transparent text-inherit cursor-pointer no-underline group"
                       aria-current={isActive ? 'true' : undefined}
@@ -121,7 +135,7 @@ export default function Header() {
                         <span className={`w-[6px] h-[6px] rounded-full bg-white transition-opacity duration-200 ${isActive ? 'opacity-90' : 'opacity-40'}`} />
                       </span>
                       <span className={`text-[11px] font-medium transition-colors duration-200 ${isActive ? 'text-cyan-200' : 'text-slate-400'}`}>{item.label}</span>
-                    </a>
+                    </Link>
                   </li>
                 );
               })}

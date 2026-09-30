@@ -1,9 +1,79 @@
+import Link from 'next/link';
+
 export default function Footer() {
   return (
-    <footer className="border-t border-white/5 bg-[#040a16] py-8 text-slate-400 text-sm">
-      <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-3 w-[min(72rem,calc(100%-2rem))] mx-auto">
-        <p className="m-0">© 2026 Sollvian AI Tech. Integrated solutions for a smarter tomorrow.</p>
-        <p className="m-0">Secure · Scalable · Customer centric</p>
+    <footer className="border-t border-white/5 bg-[#020617] pt-16 pb-8 text-slate-300">
+      <div className="w-[min(72rem,calc(100%-2rem))] mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+          {/* Product */}
+          <div className="flex flex-col gap-4">
+            <h3 className="text-white font-bold text-lg mb-2">Product</h3>
+            <Link href="/lead-management" className="hover:text-cyan-400 transition-colors">Lead Management</Link>
+            <Link href="/sales-design" className="hover:text-cyan-400 transition-colors">Sales Design</Link>
+            <Link href="/design-studio" className="hover:text-cyan-400 transition-colors">Design Studio</Link>
+          </div>
+
+          {/* Solutions */}
+          <div className="flex flex-col gap-4">
+            <h3 className="text-white font-bold text-lg mb-2">Solutions</h3>
+            <Link href="/solar-installers" className="hover:text-cyan-400 transition-colors">Solar Installers</Link>
+            <Link href="/sales-professionals" className="hover:text-cyan-400 transition-colors">Sales Professionals</Link>
+            <Link href="/channel-managers-oems" className="hover:text-cyan-400 transition-colors">Channel Managers & OEMs</Link>
+            <Link href="/industry-residential" className="hover:text-cyan-400 transition-colors">Industry Residential</Link>
+            <Link href="/industry-commercial" className="hover:text-cyan-400 transition-colors">Industry Commercial</Link>
+          </div>
+
+          {/* Resources */}
+          <div className="flex flex-col gap-4">
+            <h3 className="text-white font-bold text-lg mb-2">Resources</h3>
+            <Link href="/blog" className="hover:text-cyan-400 transition-colors">Blog</Link>
+            <Link href="/events" className="hover:text-cyan-400 transition-colors">Events</Link>
+            <Link href="/case-studies" className="hover:text-cyan-400 transition-colors">Case Studies</Link>
+          </div>
+
+          {/* Company */}
+          <div className="flex flex-col gap-4">
+            <h3 className="text-white font-bold text-lg mb-2">Company</h3>
+            <Link href="/about" className="hover:text-cyan-400 transition-colors">About</Link>
+            <Link href="/privacy-policy" className="hover:text-cyan-400 transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-cyan-400 transition-colors">Terms</Link>
+            <Link href="/support-feedback" className="hover:text-cyan-400 transition-colors">Support Feedback</Link>
+          </div>
+        </div>
+
+        {/* Bottom Section */}
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8 pt-8 border-t border-white/10">
+          <div className="flex flex-col gap-6">
+            {/* Logo */}
+            <div className="flex items-center gap-3">
+              <img src="/favicon.ico" alt="Sollvian Logo" width="40" height="40" className="object-contain rounded-md" />
+              <span className="flex flex-col leading-none">
+                <span className="text-[20px] font-semibold tracking-[-0.02em] text-white">Sollvian</span>
+                <span className="mt-[2px] text-[12px] font-semibold tracking-[0.16em] uppercase text-cyan-400/90">AI Tech</span>
+              </span>
+            </div>
+            
+            {/* Addresses */}
+            <div className="flex flex-col gap-3 text-sm">
+              <div className="flex items-start gap-3">
+                <span className="text-xl leading-none" role="img" aria-label="US Flag">🇺🇸</span>
+                <span>805 central expy S, Allen TX 75013</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-xl leading-none" role="img" aria-label="India Flag">🇮🇳</span>
+                <span>Sollvian 230/A, 18th Main Rd, 6th Block, Koramangala,<br />Bengaluru, Karnataka 560095</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Contact Us */}
+          <div className="flex flex-col items-start lg:items-center gap-4 bg-white/5 p-6 rounded-2xl border border-white/10">
+            <span className="text-white font-medium">Have something in mind?</span>
+            <Link href="#contact" className="inline-flex items-center justify-center h-12 px-8 rounded-full font-bold cursor-pointer bg-cyan-400 text-[#041018] hover:bg-cyan-300 transition-colors no-underline">
+              Contact Us
+            </Link>
+          </div>
+        </div>
       </div>
     </footer>
   );

@@ -2,16 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import Header from '@/app/_components/Header';
-import HeroSection from '@/app/_components/HeroSection';
-import ProductSection from '@/app/_components/ProductSection';
-import ContactSection from '@/app/_components/ContactSection';
 import Footer from '@/app/_components/Footer';
-import EmailModal from '@/app/_components/EmailModal';
-import SplashScreen from '@/app/_components/SplashScreen';
+import NewsSection from '@/app/_components/NewsSection';
 
-export default function Page() {
-    const [modalOpen, setModalOpen] = useState(false);
-    const [isInitialLoading, setIsInitialLoading] = useState(true);
+export default function NewsPage() {
     const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 });
 
     useEffect(() => {
@@ -21,7 +15,7 @@ export default function Page() {
 
         window.addEventListener('mousemove', handleMouseMove);
         return () => window.removeEventListener('mousemove', handleMouseMove);
-    });
+    }, []);
 
     return (
         <>
@@ -31,19 +25,14 @@ export default function Page() {
                     background: `radial-gradient(circle 600px at ${mousePos.x}px ${mousePos.y}px, rgba(34, 211, 238, 0.4), transparent 80%), linear-gradient(180deg, #020617 0%, #000000 100%)`
                 }}
             />
-            {isInitialLoading && <SplashScreen onFinish={() => setIsInitialLoading(false)} />}
-
+            
             <Header />
 
-            <main>
-                <HeroSection onDownload={() => setModalOpen(true)} />
-                <ProductSection />
-                <ContactSection />
+            <main className="min-h-screen pt-12">
+                <NewsSection />
             </main>
 
             <Footer />
-
-            {modalOpen && <EmailModal onClose={() => setModalOpen(false)} />}
         </>
     );
 }

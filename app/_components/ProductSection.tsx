@@ -16,13 +16,13 @@ const PRODUCTS = [
   {
     num: '01',
     title: 'Proposal & ROI',
-    summary: 'Customized proposals for unique business needs, with the return made visible.',
-    detail: 'We gather the site, the buyer, and the numbers that have to survive after the signature. The document that goes out is specific enough to build from.',
+    summary: 'Get tailored proposals built around your needs, with clear ROI that shows the value of your investment.',
+    detail: 'We gather the site, the buyer and the numbers that have to survive after the signature. The document that goes out is specific enough to build from.',
     icon: FileText,
     accent: 'from-cyan-400 to-blue-500',
     subPoints: [
       { title: 'Site Assessment & Shading Analysis', desc: 'Precise irradiance modeling and shadow simulation for accurate yield prediction.' },
-      { title: 'Financial Modeling & Payback Horizon', desc: 'Real-time ROI calculation factoring in local tariffs, subsidies, and degradation curves.' },
+      { title: 'Financial Modeling & Payback Horizon', desc: 'Real-time ROI calculation factoring in local tariffs, subsidies and degradation curves.' },
       { title: 'Bespoke Proposal Generation', desc: 'One-click export of engineering-ready proposals customized for enterprise stakeholders.' }
     ],
     mockupType: 'roi',
@@ -32,11 +32,11 @@ const PRODUCTS = [
     num: '02',
     title: 'Installation Tracking',
     summary: 'Real-time tracking for smooth and timely installations.',
-    detail: 'Crews, sites, and blockers sit on one timeline. A slip is visible the morning it happens, not the week the customer asks.',
+    detail: 'Crews, sites and blockers sit on one timeline. A slip is visible the morning it happens, not the week the customer asks.',
     icon: Activity,
     accent: 'from-emerald-400 to-teal-500',
     subPoints: [
-      { title: 'Live Milestone Timeline', desc: 'Track permitting, delivery, staging, and commissioning across all active job sites.' },
+      { title: 'Live Milestone Timeline', desc: 'Track permitting, delivery, staging and commissioning across all active job sites.' },
       { title: 'Automated Blocker Alerts', desc: 'Instant notifications when material delays or labor bottlenecks threaten project velocity.' },
       { title: 'Field Crew Dispatch & Sync', desc: 'Mobile-first updates from site leads feeding directly into the central dashboard.' }
     ],
@@ -47,13 +47,13 @@ const PRODUCTS = [
     num: '03',
     title: 'Structure Design',
     summary: 'Scalable solar structure design for every site.',
-    detail: 'Each site gets a structure that fits the ground, the load, and the install plan — not a reused drawing from the last job.',
+    detail: 'Each site gets a structure that fits the ground, the load and the install plan — not a reused drawing from the last job.',
     icon: Layers,
     accent: 'from-amber-400 to-orange-500',
     subPoints: [
       { title: 'Structural Load Simulation', desc: 'Wind load and snow load stress testing configured for local geological standards.' },
-      { title: 'Bill of Materials (BOM) Automation', desc: 'Instant generation of exact fastener counts, rail lengths, and racking requirements.' },
-      { title: 'Ground & Rooftop Compatibility', desc: 'Seamless switching between ballasted flat roof, pitched roof, and ground-mount arrays.' }
+      { title: 'Bill of Materials (BOM) Automation', desc: 'Instant generation of exact fastener counts, rail lengths and racking requirements.' },
+      { title: 'Ground & Rooftop Compatibility', desc: 'Seamless switching between ballasted flat roof, pitched roof and ground-mount arrays.' }
     ],
     mockupType: 'structure',
     metric: '100% Engineering Compliance'
@@ -62,11 +62,11 @@ const PRODUCTS = [
     num: '04',
     title: 'CRM',
     summary: 'Stronger relationships. Better engagement. Greater growth.',
-    detail: 'Notes, next actions, and the last promise live together. The account view is what a person would say if you asked how the work is going.',
+    detail: 'Notes, next actions and the last promise live together. The account view is what a person would say if you asked how the work is going.',
     icon: Users,
     accent: 'from-indigo-400 to-purple-500',
     subPoints: [
-      { title: 'Unified Account Timeline', desc: 'All communications, proposals, site notes, and calls ordered in a single chronological stream.' },
+      { title: 'Unified Account Timeline', desc: 'All communications, proposals, site notes and calls ordered in a single chronological stream.' },
       { title: 'Next-Action Reminders', desc: 'Never drop a follow-up with automated prompt triggers tied to project milestones.' },
       { title: 'Pipeline Health Analytics', desc: 'Visual forecasting for commercial solar deals from initial lead to signed PPA.' }
     ],
@@ -77,11 +77,11 @@ const PRODUCTS = [
     num: '05',
     title: 'Customer 360°',
     summary: 'A complete view. Personalized experiences. Loyal customers.',
-    detail: 'Contracts, tickets, installs, and usage fold into one picture. Support does not start from a blank page.',
+    detail: 'Contracts, tickets, installs and usage fold into one picture. Support does not start from a blank page.',
     icon: ShieldCheck,
     accent: 'from-cyan-400 to-emerald-400',
     subPoints: [
-      { title: 'Lifecycle Panoramic View', desc: 'Instantly bridge historical billing, live inverter production telemetry, and active service tickets.' },
+      { title: 'Lifecycle Panoramic View', desc: 'Instantly bridge historical billing, live inverter production telemetry and active service tickets.' },
       { title: 'Proactive O&M Triggers', desc: 'Automated dispatch for maintenance before generation drops below efficiency thresholds.' },
       { title: 'Client Portal Integration', desc: 'Self-serve executive dashboards giving commercial clients real-time ESG and savings reports.' }
     ],
@@ -133,8 +133,8 @@ export default function ProductModules() {
   const IconComponent = current.icon;
 
   return (
-    <section 
-      className="py-16 md:py-24 bg-transparent text-slate-100 min-h-screen relative overflow-hidden font-sans border-b border-white/5" 
+    <section
+      className="py-16 md:py-24 bg-transparent text-slate-100 min-h-screen relative overflow-hidden font-sans border-b border-white/5"
       id="product"
     >
 
@@ -148,7 +148,7 @@ export default function ProductModules() {
             Sollvian AI Tech Hub
           </div>
           <h2 className="text-[clamp(1.85rem,3.5vw,2.75rem)] tracking-[-0.03em] text-[#e8eef7] font-semibold leading-[1.15]">
-            Five systems. One operating picture.
+            One intelligent platform for every step of your solar journey.
           </h2>
           <p className="mt-4 text-slate-300 text-base md:text-lg leading-[1.7]">
             The same five nodes from the Sollvian AI Tech hub, written so a buyer can actually use them—from initial proposal to lifetime asset management.
@@ -174,8 +174,8 @@ export default function ProductModules() {
                   onClick={() => handleSelectModule(idx)}
                   onMouseEnter={() => handleSelectModule(idx)}
                   className={`group relative cursor-pointer rounded-[1rem] p-4 sm:p-5 transition-all duration-300 border w-full ${isActive
-                      ? 'bg-[#0d1d3d] border-cyan-400/50 shadow-[0_0_30px_rgba(34,211,238,0.15)] lg:translate-x-1.5'
-                      : 'bg-[#0a1730]/80 border-white/5 hover:bg-[#0d1d3d]/60 hover:border-white/15'
+                    ? 'bg-[#0d1d3d] border-cyan-400/50 shadow-[0_0_30px_rgba(34,211,238,0.15)] lg:translate-x-1.5'
+                    : 'bg-[#0a1730]/80 border-white/5 hover:bg-[#0d1d3d]/60 hover:border-white/15'
                     }`}
                 >
                   {/* Active indicator bar */}
