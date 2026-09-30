@@ -52,16 +52,12 @@ export default function Footer() {
                 <span className="mt-[2px] text-[12px] font-semibold tracking-[0.16em] uppercase text-cyan-400/90">AI Tech</span>
               </span>
             </div>
-            
+
             {/* Addresses */}
             <div className="flex flex-col gap-3 text-sm">
               <div className="flex items-start gap-3">
-                <span className="text-xl leading-none" role="img" aria-label="US Flag">🇺🇸</span>
-                <span>805 central expy S, Allen TX 75013</span>
-              </div>
-              <div className="flex items-start gap-3">
                 <span className="text-xl leading-none" role="img" aria-label="India Flag">🇮🇳</span>
-                <span>Sollvian 230/A, 18th Main Rd, 6th Block, Koramangala,<br />Bengaluru, Karnataka 560095</span>
+                <span>Sollvian AI tech Pvt ltd<br />Plot no 142, 4th floor , MP Nagar zone 2 462011, Bhopal M.P</span>
               </div>
             </div>
           </div>
