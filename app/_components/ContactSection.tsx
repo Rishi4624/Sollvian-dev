@@ -8,13 +8,13 @@ export default function ContactSection() {
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
-    const name  = (form.elements.namedItem('name')  as HTMLInputElement).value.trim();
+    const name = (form.elements.namedItem('name') as HTMLInputElement).value.trim();
     const email = (form.elements.namedItem('email') as HTMLInputElement).value.trim();
     const company = (form.elements.namedItem('company') as HTMLInputElement).value.trim();
     const phone = (form.elements.namedItem('phone') as HTMLInputElement).value.trim();
     const interest = (form.elements.namedItem('interest') as HTMLSelectElement).value.trim();
     const address = (form.elements.namedItem('address') as HTMLInputElement).value.trim();
-    const note  = (form.elements.namedItem('note')  as HTMLTextAreaElement).value.trim();
+    const note = (form.elements.namedItem('note') as HTMLTextAreaElement).value.trim();
 
     if (!name || !email || !note || !interest) {
       setStatus('err');
@@ -57,8 +57,8 @@ export default function ContactSection() {
   const reqClass = "text-cyan-300";
 
   return (
-    <section 
-      className="relative overflow-hidden py-16 scroll-mt-28 lg:scroll-mt-24 bg-transparent" 
+    <section
+      className="relative overflow-hidden py-16 scroll-mt-28 lg:scroll-mt-24 bg-transparent"
       id="contact"
     >
       <div className="relative z-10 w-[min(72rem,calc(100%-2rem))] mx-auto grid gap-10 lg:grid-cols-[1.05fr_0.95fr]">

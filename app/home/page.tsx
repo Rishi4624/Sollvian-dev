@@ -8,7 +8,10 @@ import ProductSection from '@/app/_components/ProductSection';
 import ContactSection from '@/app/_components/ContactSection';
 import Footer from '@/app/_components/Footer';
 import EmailModal from '@/app/_components/EmailModal';
+import SolarExplanation from '../_components/SolarExplanation';
+import TeamSection from '@/app/_components/TeamSection';
 import SplashScreen from '@/app/_components/SplashScreen';
+
 
 export default function Page() {
     const [modalOpen, setModalOpen] = useState(false);
@@ -39,7 +42,9 @@ export default function Page() {
 
             <main>
                 <HeroSection onDownload={() => setModalOpen(true)} />
+                <SolarExplanation />
                 <ProductSection />
+                <TeamSection />
                 <ContactSection />
             </main>
 
