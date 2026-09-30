@@ -9,6 +9,7 @@ import { usePathname } from 'next/navigation';
 const NAV_ITEMS = [
   { label: 'Home', href: '/home' },
   { label: 'Workflow', href: '/workflow' },
+  { label: 'News', href: '/news' },
   { label: 'Contact', href: '/contact' },
 ];
 
@@ -42,9 +43,20 @@ export default function Header() {
     return () => observers.forEach((o) => o.disconnect());
   }, []);
 
+  const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#050d1b]/90 backdrop-blur-md">
+      <header className="sticky top-0 z-40  bg-transparent backdrop-blur-md">
         {/* ── Main row ── */}
         <div className="flex items-center justify-between gap-4 py-3 w-[min(72rem,calc(100%-2rem))] mx-auto">
           {/* Logo */}

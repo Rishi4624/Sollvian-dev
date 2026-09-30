@@ -3,22 +3,52 @@
 import { useState, FormEvent, useEffect } from 'react';
 import Header from '@/app/_components/Header'
 export default function Page() {
-    const [status, setStatus] = useState<'idle' | 'ok' | 'err'>('idle');
-    function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    const [status, setStatus] = useState<'idle' | 'ok' | 'err' | 'sending' | 'server_err'>('idle');
+    async function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const form = e.currentTarget;
         const name = (form.elements.namedItem('name') as HTMLInputElement).value.trim();
         const email = (form.elements.namedItem('email') as HTMLInputElement).value.trim();
+        const company = (form.elements.namedItem('company') as HTMLInputElement).value.trim();
+        const phone = (form.elements.namedItem('phone') as HTMLInputElement).value.trim();
+        const interest = (form.elements.namedItem('interest') as HTMLSelectElement).value.trim();
+        const address = (form.elements.namedItem('address') as HTMLInputElement).value.trim();
         const note = (form.elements.namedItem('note') as HTMLTextAreaElement).value.trim();
 
-        if (!name || !email || !note) {
+        if (!name || !email || !note || !interest) {
             setStatus('err');
             return;
         }
 
-        /* Simulate submission — replace with real API call when ready */
-        setStatus('ok');
-        form.reset();
+        setStatus('sending');
+
+        try {
+            const response = await fetch('/api/send-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    fullName: name,
+                    email,
+                    companyName: company,
+                    contactNumber: phone,
+                    topic: interest,
+                    address,
+                    message: note,
+                }),
+            });
+
+            if (response.ok) {
+                setStatus('ok');
+                form.reset();
+            } else {
+                setStatus('server_err');
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            setStatus('server_err');
+        }
     }
     const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 });
 
@@ -69,10 +99,10 @@ export default function Page() {
                         noValidate
                         onSubmit={handleSubmit}
                     >
-                        <div className="grid gap-4 mb-4 sm:grid-cols-2">
+                        <div className="grid gap-4 mb-4">
                             <div>
                                 <label htmlFor="name" className={labelClass}>
-                                    Name <span className={reqClass}>*</span>
+                                    Full Name <span className={reqClass}>*</span>
                                 </label>
                                 <input
                                     id="name"
@@ -83,9 +113,12 @@ export default function Page() {
                                     className={inputClass}
                                 />
                             </div>
+                        </div>
+
+                        <div className="grid gap-4 mb-4">
                             <div>
                                 <label htmlFor="email" className={labelClass}>
-                                    Work email <span className={reqClass}>*</span>
+                                    Business Email <span className={reqClass}>*</span>
                                 </label>
                                 <input
                                     id="email"
@@ -99,13 +132,27 @@ export default function Page() {
                             </div>
                         </div>
 
-                        <div className="grid gap-4 mb-4 sm:grid-cols-2">
+                        <div className="grid gap-4 mb-4">
                             <div>
-                                <label htmlFor="company" className={labelClass}>Company</label>
+                                <label htmlFor="company" className={labelClass}>Company Name</label>
                                 <input
                                     id="company"
                                     name="company"
                                     autoComplete="organization"
+                                    placeholder="Optional"
+                                    className={inputClass}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="grid gap-4 mb-4 sm:grid-cols-2">
+                            <div>
+                                <label htmlFor="phone" className={labelClass}>Contact Number</label>
+                                <input
+                                    id="phone"
+                                    name="phone"
+                                    type="tel"
+                                    autoComplete="tel"
                                     placeholder="Optional"
                                     className={inputClass}
                                 />
@@ -120,6 +167,19 @@ export default function Page() {
                                     <option className="bg-[#0a1730]">Customer 360°</option>
                                     <option className="bg-[#0a1730]">Something else</option>
                                 </select>
+                            </div>
+                        </div>
+
+                        <div className="grid gap-4 mb-4">
+                            <div>
+                                <label htmlFor="address" className={labelClass}>Address</label>
+                                <input
+                                    id="address"
+                                    name="address"
+                                    autoComplete="street-address"
+                                    placeholder="Optional"
+                                    className={inputClass}
+                                />
                             </div>
                         </div>
 
@@ -140,7 +200,7 @@ export default function Page() {
 
                         {status === 'ok' && (
                             <p className="m-0 mb-4 px-3 py-2 rounded-[0.6rem] text-sm border border-emerald-400/30 bg-emerald-400/10 text-emerald-200" id="form-ok">
-                                Received. We will write back within two working days.
+                                Thanks! Your message has been sent successfully. We'll get back to you soon.
                             </p>
                         )}
                         {status === 'err' && (
@@ -148,13 +208,19 @@ export default function Page() {
                                 Please fill in all required fields.
                             </p>
                         )}
+                        {status === 'server_err' && (
+                            <p className="m-0 mb-4 px-3 py-2 rounded-[0.6rem] text-sm border border-rose-400/30 bg-rose-400/10 text-rose-200" id="form-server-err">
+                                Something went wrong while sending your message. Please try again.
+                            </p>
+                        )}
 
                         <button
-                            className="inline-flex items-center justify-center h-10 px-5 rounded-full border-0 text-sm font-medium cursor-pointer bg-cyan-400 text-[#041018] hover:bg-cyan-300 transition-colors self-start"
+                            className="inline-flex items-center justify-center h-10 px-5 rounded-full border-0 text-sm font-medium cursor-pointer bg-cyan-400 text-[#041018] hover:bg-cyan-300 transition-colors self-start disabled:opacity-50 disabled:cursor-not-allowed"
                             id="form-submit"
                             type="submit"
+                            disabled={status === 'sending'}
                         >
-                            Send the note
+                            {status === 'sending' ? 'Sending...' : 'Send the note'}
                         </button>
                     </form>
                 </div>
