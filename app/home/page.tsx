@@ -10,6 +10,7 @@ import Footer from '@/app/_components/Footer';
 import EmailModal from '@/app/_components/EmailModal';
 import SplashScreen from '@/app/_components/SplashScreen';
 
+
 export default function Page() {
     const [modalOpen, setModalOpen] = useState(false);
     const [isInitialLoading, setIsInitialLoading] = useState(true);

@@ -98,11 +98,11 @@ export default function Header() {
           <div className="flex items-center gap-2">
             {/* Talk to us — shows at ≥640px */}
             <Link
-              href="#contact"
-              className="hidden sm:inline-flex items-center justify-center h-10 px-5 rounded-full border-0 text-sm font-medium cursor-pointer bg-cyan-400 text-[#041018] hover:bg-cyan-300 transition-colors no-underline"
+              href="/contact"
+              className="hidden sm:inline-flex items-center justify-center h-10 px-5 rounded-full border-0 text-sm font-medium cursor-pointer bg-cyan-500 text-[#041018] hover:bg-cyan-300 transition-colors no-underline"
               id="talk"
             >
-              Talk to us
+              Book demo
             </Link>
             {/* Hamburger — hidden at ≥1024px */}
             <button
