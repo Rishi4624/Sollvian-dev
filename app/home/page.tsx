@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Header from '@/app/_components/Header';
+import NewsMarquee from '@/app/_components/NewsMarquee';
 import HeroSection from '@/app/_components/HeroSection';
 import ProductSection from '@/app/_components/ProductSection';
 import ContactSection from '@/app/_components/ContactSection';
@@ -34,6 +35,7 @@ export default function Page() {
             {isInitialLoading && <SplashScreen onFinish={() => setIsInitialLoading(false)} />}
 
             <Header />
+            <NewsMarquee />
 
             <main>
                 <HeroSection onDownload={() => setModalOpen(true)} />
