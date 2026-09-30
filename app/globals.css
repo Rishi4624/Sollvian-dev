@@ -39,4 +39,14 @@ button, input, select, textarea { font: inherit; }
 
 .animate-circle-close {
   animation: circle-close 1.2s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+}
+
+@keyframes marquee-ltr {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee-ltr {
+  animation: marquee-ltr 40s linear infinite;
+  width: max-content;
 }
