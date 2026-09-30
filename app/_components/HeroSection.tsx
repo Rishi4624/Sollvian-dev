@@ -59,11 +59,11 @@ export default function HeroSection({ onDownload }: HeroSectionProps) {
 
             </p>
             <div className="flex flex-wrap gap-3 mt-8">
-              <Link className="inline-flex items-center justify-center h-10 px-5 rounded-full border-0 text-sm font-medium cursor-pointer bg-cyan-500 text-black hover:bg-cyan-600 transition-colors no-underline" href="#product" id="hero-see-product">
+              <Link className="inline-flex items-center justify-center h-10 px-5 rounded-full border-0 text-sm font-medium cursor-pointer bg-cyan-500 text-[#041018] hover:bg-cyan-600 transition-colors no-underline" href="#product" id="hero-see-product">
                 See the product
               </Link>
               <button
-                className="inline-flex items-center justify-center h-10 px-5 rounded-full text-sm font-medium cursor-pointer border border-white/15 bg-white/5 text-black hover:bg-white/10 transition-colors"
+                className="inline-flex items-center justify-center h-10 px-5 rounded-full text-sm font-medium cursor-pointer border border-white/15 bg-white/5 text-white hover:bg-white/10 transition-colors"
                 id="hero-download"
                 type="button"
                 onClick={onDownload}

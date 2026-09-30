@@ -14,11 +14,13 @@ export async function GET(request: Request) {
 
     const { searchParams } = new URL(request.url);
     const query = searchParams.get('q') || 'solar panel';
-    const max = searchParams.get('max') || '10';
+    const max = searchParams.get('max') || '9';
+    const page = searchParams.get('page') || '1';
 
     const url = new URL(GNEWS_API_URL);
     url.searchParams.append('q', query);
     url.searchParams.append('lang', 'en');
+    url.searchParams.append('page', page);
     url.searchParams.append('sortby', 'publishedAt');
     url.searchParams.append('max', max);
     url.searchParams.append('apikey', GNEWS_API_KEY);
