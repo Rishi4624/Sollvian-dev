@@ -1,171 +1,141 @@
 'use client';
 
 import React, { useState } from 'react';
-import { FileText, Activity, Layers, Users, ShieldCheck, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { FileText, Activity, Layers, Users, ShieldCheck, ChevronRight, CheckCircle2 } from 'lucide-react';
 
 const PRODUCTS = [
   {
-    num: '01',
-    title: 'Proposal & ROI',
-    summary: 'Tailored proposals built around needs, with clear ROI.',
-    description: 'We gather the site, the buyer, and the numbers that have to survive after the signature. The document that goes out is specific enough to build from. It includes precise irradiance modeling and shadow simulation for accurate yield prediction.',
-    icon: FileText,
-    features: ['Site Assessment & Shading', 'Financial Modeling', 'Bespoke Generation'],
-    metric: '99.4% Forecast Accuracy'
+    num: '01', title: 'Proposal & ROI',
+    summary: 'Tailored proposals with precise financial modeling.',
+    description: 'We gather site data, buyer profiles, and irradiance models to generate proposals specific enough to build from. Every document is backed by real financial analysis, not templates.',
+    icon: FileText, features: ['Site Assessment & Shading', 'Financial ROI Modeling', 'Bespoke Document Generation'], metric: '99.4% Forecast Accuracy',
   },
   {
-    num: '02',
-    title: 'Installation Tracking',
-    summary: 'Real-time tracking for smooth and timely installations.',
-    description: 'Crews, sites and blockers sit on one timeline. A slip is visible the morning it happens, not the week the customer asks. Track permitting, delivery, staging and commissioning across all active job sites live.',
-    icon: Activity,
-    features: ['Live Milestone Timeline', 'Automated Blocker Alerts', 'Field Crew Dispatch'],
-    metric: '35% Faster Completion'
+    num: '02', title: 'Installation Tracking',
+    summary: 'Real-time timelines for every active job site.',
+    description: 'Crews, sites, and blockers all sit on one living timeline. A slip is visible the morning it happens — not the week the customer calls asking what went wrong.',
+    icon: Activity, features: ['Live Milestone Timeline', 'Automated Blocker Alerts', 'Field Crew Dispatch'], metric: '35% Faster Completion',
   },
   {
-    num: '03',
-    title: 'Structure Design',
-    summary: 'Scalable solar structure design engineered for every site.',
-    description: 'Each site gets a structure that fits the ground, the load and the install plan — not a reused drawing from the last job. Features wind load and snow load stress testing configured for local geological standards.',
-    icon: Layers,
-    features: ['Structural Load Simulation', 'BOM Automation', 'Ground & Roof Compatibility'],
-    metric: '100% Engineering Compliance'
+    num: '03', title: 'Structure Design',
+    summary: 'Engineering-grade structural plans, automatically.',
+    description: 'Each site gets a structure built for its specific ground, load, and install plan. Wind, snow, and seismic stress tested against local codes before a single bolt is ordered.',
+    icon: Layers, features: ['Structural Load Simulation', 'BOM Auto-Generation', 'Ground & Roof Compatibility'], metric: '100% Engineering Compliance',
   },
   {
-    num: '04',
-    title: 'CRM Integration',
-    summary: 'Stronger relationships and pipeline visibility.',
-    description: 'Notes, next actions and the last promise live together. The account view is what a person would say if you asked how the work is going. Never drop a follow-up with automated prompt triggers.',
-    icon: Users,
-    features: ['Unified Account Timeline', 'Next-Action Reminders', 'Pipeline Health Analytics'],
-    metric: '4.8x Pipeline Visibility'
+    num: '04', title: 'CRM Integration',
+    summary: "A pipeline that actually tells you what's happening.",
+    description: 'Notes, next actions, and every promise live together. The account view is what a person would say if you asked how the work is going — not a wall of spreadsheet rows.',
+    icon: Users, features: ['Unified Account Timeline', 'Next-Action Reminders', 'Pipeline Health Analytics'], metric: '4.8x Pipeline Visibility',
   },
   {
-    num: '05',
-    title: 'Customer 360°',
-    summary: 'A complete view connecting contracts, tickets, and installs.',
-    description: 'Contracts, tickets, installs and usage fold into one picture. Support does not start from a blank page. Instantly bridge historical billing, live inverter production telemetry and active service tickets.',
-    icon: ShieldCheck,
-    features: ['Lifecycle Panoramic View', 'Proactive O&M Triggers', 'Client Portal Integration'],
-    metric: '99.8% Client Retention'
-  }
+    num: '05', title: 'Customer 360°',
+    summary: 'Every contract, ticket, and install in one view.',
+    description: 'Contracts, tickets, installs, and usage fold into one complete picture so your support team never starts from a blank page.',
+    icon: ShieldCheck, features: ['Lifecycle Panoramic View', 'Proactive O&M Triggers', 'Client Portal Integration'], metric: '99.8% Client Retention',
+  },
 ];
 
 export default function ProductSection() {
-  const [activeIdx, setActiveIdx] = useState(0);
-  const [animationKey, setAnimationKey] = useState(0);
-
-  const handleSelect = (index: number) => {
-    if (index !== activeIdx) {
-      setActiveIdx(index);
-      setAnimationKey(prev => prev + 1);
-    }
-  };
-
-  const activeProduct = PRODUCTS[activeIdx];
-  const ActiveIcon = activeProduct.icon;
+  const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   return (
-    <section className="py-24 bg-white text-slate-900 relative overflow-hidden font-sans border-t border-slate-100" id="product">
-      <div className="w-[min(80rem,calc(100%-2rem))] mx-auto px-4 sm:px-6 relative z-10">
-        
-        {/* Section Header */}
-        <div className="mb-16 max-w-3xl animate-fade-up">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-blue-200 bg-blue-50 text-blue-600 text-xs font-bold tracking-widest uppercase mb-6 shadow-sm">
-            Platform Capabilities
-          </div>
-          <h2 className="text-[clamp(2.5rem,4vw,3.5rem)] font-extrabold tracking-tight text-slate-900 leading-tight mb-6">
-            The complete toolkit.
-          </h2>
-          <p className="text-slate-600 text-lg md:text-xl leading-relaxed font-medium">
-            Designed specifically for solar professionals. Ditch the fragmented spreadsheets and manage your entire lifecycle seamlessly from one intelligent hub.
-          </p>
-        </div>
-
-        {/* Sidebar & Content Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-start">
-          
-          {/* Left Sidebar Navigation */}
-          <div className="lg:col-span-4 flex flex-col gap-3 lg:sticky lg:top-32">
-            {PRODUCTS.map((p, idx) => {
-              const isActive = activeIdx === idx;
-              const Icon = p.icon;
-              return (
-                <button
-                  key={p.num}
-                  onClick={() => handleSelect(idx)}
-                  className={`group flex items-center gap-4 p-4 rounded-2xl w-full text-left transition-all duration-300 border ${
-                    isActive 
-                      ? 'bg-slate-900 border-slate-900 text-white shadow-xl translate-x-2' 
-                      : 'bg-white border-slate-200 hover:border-blue-300 text-slate-600 hover:bg-blue-50/50'
-                  }`}
-                >
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-colors shadow-sm ${
-                    isActive ? 'bg-white/15 text-white' : 'bg-slate-50 text-slate-400 group-hover:bg-blue-100 group-hover:text-blue-600'
-                  }`}>
-                    <Icon className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className={`text-xs font-bold tracking-widest uppercase mb-1 ${isActive ? 'text-blue-400' : 'text-slate-400'}`}>
-                      Module {p.num}
-                    </div>
-                    <div className={`font-bold text-lg ${isActive ? 'text-white' : 'text-slate-900'}`}>
-                      {p.title}
-                    </div>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Right Content Display */}
-          <div className="lg:col-span-8 bg-slate-50/50 border border-slate-200 rounded-[2.5rem] p-8 md:p-12 shadow-xl relative overflow-hidden min-h-[500px] flex items-center">
-            {/* Decorative background blur */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-blue-100 rounded-full blur-[100px] opacity-60 -mr-20 -mt-20 pointer-events-none" />
-            
-            <div key={animationKey} className="relative z-10 w-full animate-fade-up">
-              
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10 pb-10 border-b border-slate-200">
-                <div className="flex items-center gap-5">
-                  <div className="w-16 h-16 rounded-2xl bg-white shadow-sm border border-slate-100 flex items-center justify-center text-blue-600">
-                    <ActiveIcon className="w-8 h-8" />
-                  </div>
-                  <div>
-                    <h3 className="text-3xl font-extrabold text-slate-900 mb-2">{activeProduct.title}</h3>
-                    <p className="text-blue-600 font-bold tracking-wide uppercase text-sm">
-                      {activeProduct.metric}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-10">
-                <div>
-                  <h4 className="text-xl font-bold text-slate-900 mb-4">Overview</h4>
-                  <p className="text-slate-600 leading-relaxed text-lg mb-8">
-                    {activeProduct.description}
-                  </p>
-                  <button className="inline-flex items-center gap-2 font-bold text-blue-600 hover:text-blue-800 transition-colors group">
-                    View full documentation <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </button>
-                </div>
-                
-                <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
-                  <h4 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6">Key Features</h4>
-                  <ul className="space-y-4">
-                    {activeProduct.features.map((feature, i) => (
-                      <li key={i} className="flex items-start gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-blue-500 shrink-0" />
-                        <span className="text-slate-700 font-semibold">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
+    <section className="border-t border-[#203a30]/10 bg-[#fffefa] py-24 md:py-32" id="product">
+      <div className="mx-auto w-[min(82rem,calc(100%-2.5rem))]">
+        <div className="grid items-start gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20">
+          <div className="lg:sticky lg:top-28">
+            <p className="mb-5 text-[11px] font-bold uppercase tracking-[0.16em] text-[#8b6744]">The platform</p>
+            <h2 className="mb-6 font-serif text-[clamp(2.6rem,4vw,4rem)] leading-[1.02] text-[#203a30]">
+              One system.<br />Every moving part.
+            </h2>
+            <p className="max-w-sm text-[15px] leading-[1.8] text-[#687269]">
+              Purpose-built tools for solar teams, connected from the first customer conversation through installation and ongoing service.
+            </p>
+            <div className="mt-9 flex items-baseline gap-3 border-t border-[#203a30]/12 pt-5">
+              <span className="font-serif text-5xl text-[#244337]">05</span>
+              <span className="text-[12px] leading-relaxed text-[#6b756d]">integrated modules<br />one shared workspace</span>
             </div>
           </div>
 
+          <div className="divide-y divide-[#203a30]/12 border-y border-[#203a30]/12">
+            {PRODUCTS.map((p, idx) => {
+              const isOpen = openIdx === idx;
+              const Icon = p.icon;
+              return (
+                <div
+                  key={p.num}
+                  className={`group transition-colors duration-200 ${
+                    isOpen
+                      ? 'bg-[#f4f5ef]'
+                      : 'bg-transparent hover:bg-[#f8f8f3]'
+                  }`}
+                >
+                  {/* Accordion header */}
+                  <button
+                    onClick={() => setOpenIdx(isOpen ? null : idx)}
+                    className="w-full flex items-center gap-4 py-5 text-left sm:gap-5 sm:py-6"
+                  >
+                    <div className={`grid h-11 w-11 place-items-center rounded-full shrink-0 transition-colors ${
+                      isOpen
+                        ? 'bg-[#244337] text-white'
+                        : 'bg-[#e9ece5] text-[#71806f] group-hover:bg-[#dfe6dc]'
+                    }`}>
+                      <Icon className="w-5 h-5" />
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                      {/* Module label */}
+                      <div className={`mb-1 text-[10px] font-bold uppercase tracking-[0.15em] transition-colors ${isOpen ? 'text-[#8b6744]' : 'text-[#8a9388]'}`}>
+                        {p.num} / Module
+                      </div>
+                      {/* Title — white on dark → ✅ */}
+                      <div className={`text-[16px] font-bold transition-colors sm:text-[18px] ${isOpen ? 'text-[#203a30]' : 'text-[#435348]'}`}>
+                        {p.title}
+                      </div>
+                      {/* Summary on closed — white/35 on dark → ✅ */}
+                      {!isOpen && (
+                        <div className="mt-1 truncate text-[13px] text-[#7c857c]">{p.summary}</div>
+                      )}
+                    </div>
+
+                    <div className={`grid h-8 w-8 place-items-center rounded-full border border-[#203a30]/15 shrink-0 transition-all duration-300 ${
+                      isOpen ? 'rotate-90 border-[#244337]/30 bg-white' : ''
+                    }`}>
+                      <ChevronRight className={`w-4 h-4 transition-colors ${isOpen ? 'text-[#244337]' : 'text-[#859087]'}`} />
+                    </div>
+                  </button>
+
+                  {/* Accordion body */}
+                  {isOpen && (
+                    <div className="border-t border-[#203a30]/10 px-5 pb-6 sm:px-16">
+                      <div className="grid gap-7 pt-5 sm:grid-cols-2">
+                        <div>
+                          <p className="mb-5 text-[14px] leading-[1.8] text-[#687269]">
+                            {p.description}
+                          </p>
+                          <div className="inline-flex items-center gap-2 border-l-2 border-[#8b6744] pl-3">
+                            <span className="text-[12px] font-bold text-[#66523e]">{p.metric}</span>
+                          </div>
+                        </div>
+
+                        <div className="border-l border-[#203a30]/10 pl-5">
+                          <div className="mb-4 text-[10px] font-bold uppercase tracking-[0.14em] text-[#8a9388]">Key features</div>
+                          <ul className="space-y-3">
+                            {p.features.map((f) => (
+                              <li key={f} className="flex items-center gap-2.5">
+                                <CheckCircle2 className="h-4 w-4 shrink-0 text-[#71866b]" />
+                                <span className="text-[13px] font-medium text-[#48574b]">{f}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>

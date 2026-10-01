@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 const ALLOWED_EMAILS = new Set([
@@ -14,6 +15,7 @@ interface EmailModalProps {
 }
 
 export default function EmailModal({ onClose }: EmailModalProps) {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [showDownload, setShowDownload] = useState(false);
@@ -52,7 +54,7 @@ export default function EmailModal({ onClose }: EmailModalProps) {
       } else {
         setUploadMessage(`Error: ${data.error}`);
       }
-    } catch (err) {
+    } catch {
       setUploadMessage('Upload failed');
     } finally {
       setIsUploading(false);
@@ -63,17 +65,18 @@ export default function EmailModal({ onClose }: EmailModalProps) {
     /* Backdrop */
     <div
       onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-[6px]"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[#203a30]/45 px-4 backdrop-blur-[4px]"
     >
       {/* Modal Box */}
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-md mx-4 rounded-2xl p-8 bg-[#071430] border border-cyan-400/40 shadow-[0_0_40px_rgba(0,212,255,0.2)]"
+        className="relative w-full max-w-md border border-[#203a30]/10 bg-[#fffefa] p-7 shadow-[0_24px_80px_-35px_rgba(31,58,48,0.65)] sm:p-9"
       >
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-3 right-4 text-gray-400 hover:text-white text-2xl leading-none"
+          className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full border border-[#203a30]/10 text-xl leading-none text-[#657066] transition-colors hover:bg-[#eef0e9] hover:text-[#203a30]"
+          aria-label="Close dialog"
         >
           ×
         </button>
@@ -81,11 +84,11 @@ export default function EmailModal({ onClose }: EmailModalProps) {
         {/* Email icon */}
         <div className="flex justify-center mb-4">
           <div
-            className="w-12 h-12 rounded-full flex items-center justify-center bg-cyan-400/10 border border-cyan-400/30"
+            className="flex h-12 w-12 items-center justify-center rounded-full border border-[#8b6744]/20 bg-[#8b6744]/10"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="w-6 h-6 text-cyan-400"
+              className="h-6 w-6 text-[#8b6744]"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -100,16 +103,16 @@ export default function EmailModal({ onClose }: EmailModalProps) {
           </div>
         </div>
 
-        <h2 className="text-center text-white text-xl font-bold mb-1">
+        <h2 className="mb-1 text-center font-serif text-[28px] text-[#203a30]">
           Download Access
         </h2>
-        <p className="text-center text-gray-400 text-sm mb-6">
+        <p className="mb-6 text-center text-[13px] leading-relaxed text-[#727c72]">
           Enter your authorized email to unlock the download.
         </p>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
-            <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">
+            <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.14em] text-[#687269]">
               Email Address
             </label>
             <input
@@ -121,7 +124,7 @@ export default function EmailModal({ onClose }: EmailModalProps) {
                 setShowDownload(false);
               }}
               placeholder="name@sollviantech.com"
-              className="w-full h-11 rounded-lg px-4 text-white text-sm outline-none bg-[#020e1c]/80 border border-[#00c8ff]/30 focus:border-cyan-400 transition-colors"
+              className="h-11 w-full rounded-lg border border-[#203a30]/15 bg-white px-4 text-sm text-[#203a30] outline-none transition-colors placeholder:text-[#9aa198] focus:border-[#71866b]"
               required
               autoFocus
             />
@@ -129,23 +132,23 @@ export default function EmailModal({ onClose }: EmailModalProps) {
 
           {/* Error */}
           {error && (
-            <p className="text-red-400 text-sm text-center">{error}</p>
+            <p className="text-center text-sm text-[#a14f42]">{error}</p>
           )}
 
           <button
             type="submit"
-            className="w-full py-3 rounded-xl font-bold text-black text-sm bg-cyan-400 hover:bg-cyan-300 transition-all shadow-[0_0_16px_rgba(0,212,255,0.5)]"
+            className="w-full rounded-full bg-[#244337] py-3 text-sm font-bold text-white transition-colors hover:bg-[#315844]"
           >
             Verify &amp; Unlock
           </button>
 
           {/* Download & Upload section on success */}
           {showDownload && (
-            <div className="flex flex-col gap-4 mt-2 pt-4 border-t border-cyan-400/20">
+            <div className="mt-2 flex flex-col gap-4 border-t border-[#203a30]/10 pt-4">
               <button
                 type="button"
-                onClick={() => { window.location.href = '/api/download'; }}
-                className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-bold text-black text-sm bg-cyan-400 hover:bg-cyan-300 transition-all shadow-[0_0_16px_rgba(0,212,255,0.5)]"
+                onClick={() => router.push('/api/download')}
+                className="flex w-full items-center justify-center gap-2 rounded-full bg-[#244337] py-3 text-sm font-bold text-white transition-colors hover:bg-[#315844]"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 3v13m0 0l-4-4m4 4l4-4" />
@@ -163,7 +166,7 @@ export default function EmailModal({ onClose }: EmailModalProps) {
                 <button
                   type="button"
                   disabled={isUploading}
-                  className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-bold text-white text-sm bg-[#0a2342] border border-cyan-400/30 hover:bg-[#0d2f59] transition-all disabled:opacity-50"
+                  className="flex w-full items-center justify-center gap-2 rounded-full border border-[#203a30]/15 bg-[#eef0e9] py-3 text-sm font-bold text-[#344c3e] transition-colors hover:bg-[#e4e8df] disabled:opacity-50"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 16V3m0 0l-4 4m4-4l4 4" />
@@ -172,7 +175,7 @@ export default function EmailModal({ onClose }: EmailModalProps) {
                 </button>
               </div>
               {uploadMessage && (
-                <p className={`text-xs text-center break-all ${uploadMessage.startsWith('Error') || uploadMessage.startsWith('Upload failed') ? 'text-red-400' : 'text-green-400'}`}>
+                <p className={`break-all text-center text-xs ${uploadMessage.startsWith('Error') || uploadMessage.startsWith('Upload failed') ? 'text-[#a14f42]' : 'text-[#52704e]'}`}>
                   {uploadMessage}
                 </p>
               )}

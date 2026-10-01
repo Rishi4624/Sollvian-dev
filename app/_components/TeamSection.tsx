@@ -1,104 +1,73 @@
 'use client';
 
+import Image from 'next/image';
 import React from 'react';
-import { Link, Mail, Globe } from 'lucide-react';
+import { Mail, Globe, Link } from 'lucide-react';
 
 const TEAM_MEMBERS = [
-  {
-    name: "Alex Sterling",
-    role: "CEO & Founder",
-    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop&q=80",
-    bio: "Visionary leader driving Sollvian's mission to revolutionize the solar industry with AI-driven workflows.",
-  },
-  {
-    name: "Jordan Lee",
-    role: "Chief Technology Officer",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&q=80",
-    bio: "Architect behind our high-performance infrastructure, ensuring our 3D models and calculations are flawless.",
-  },
-  {
-    name: "Samantha Reyes",
-    role: "Product Manager",
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop&q=80",
-    bio: "Bridging the gap between installer needs and engineering output to deliver a perfectly tailored platform.",
-  },
-  {
-    name: "David Chen",
-    role: "Lead Developer",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&q=80",
-    bio: "Full-stack expert obsessing over performance, smooth animations, and pixel-perfect user interfaces.",
-  },
-  {
-    name: "Elena Rodriguez",
-    role: "Head of Operations",
-    image: "https://images.unsplash.com/photo-1598550874175-4d0ef436c909?w=400&h=400&fit=crop&q=80",
-    bio: "Scaling our customer success and daily operations to ensure our partners always have what they need.",
-  }
+  { name: 'Alex Sterling', role: 'CEO & Founder', image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop&q=80', bio: "Visionary leader driving Sollvian's mission to revolutionize the solar industry with AI-driven workflows." },
+  { name: 'Jordan Lee', role: 'CTO', image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&q=80', bio: 'Architect behind our high-performance infrastructure and 3D calculation engine.' },
+  { name: 'Samantha Reyes', role: 'Product Manager', image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop&q=80', bio: 'Bridges installer needs and engineering output for a perfectly tailored platform.' },
+  { name: 'David Chen', role: 'Lead Developer', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&q=80', bio: 'Full-stack expert obsessing over performance and pixel-perfect interfaces.' },
+  { name: 'Elena Rodriguez', role: 'Head of Operations', image: 'https://images.unsplash.com/photo-1598550874175-4d0ef436c909?w=400&h=400&fit=crop&q=80', bio: 'Scaling customer success to ensure our partners always have what they need.' },
 ];
 
 export default function TeamSection() {
   return (
-    <section className="py-24 relative overflow-hidden bg-white border-t border-slate-100" id="team">
-      <div className="w-[min(80rem,calc(100%-2rem))] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
+    <section className="border-t border-[#203a30]/10 bg-[#fffefa] py-24 md:py-32" id="team">
+      <div className="mx-auto w-[min(82rem,calc(100%-2.5rem))]">
+
         {/* Header */}
-        <div className="text-center mb-16 max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-blue-200 bg-blue-50 text-blue-600 text-xs font-bold tracking-widest uppercase mb-6 shadow-sm">
-            Our Team
+        <div className="mb-12 flex flex-col justify-between gap-6 md:mb-16 md:flex-row md:items-end">
+          <div>
+            <p className="mb-5 text-[11px] font-bold uppercase tracking-[0.16em] text-[#8b6744]">The people</p>
+            <h2 className="font-serif text-[clamp(2.6rem,4.5vw,4rem)] leading-[1.02] text-[#203a30]">
+              Good work takes<br />a good team.
+            </h2>
           </div>
-          <h2 className="text-[clamp(2.5rem,5vw,4rem)] font-extrabold tracking-tight text-slate-900 leading-[1.1] mb-6">
-            The minds behind Sollvian.
-          </h2>
-          <p className="mt-4 text-slate-600 text-lg md:text-xl leading-relaxed font-medium">
-            Meet the engineers, designers, and visionaries dedicated to making solar management intelligent, automated, and effortless.
+          <p className="max-w-sm text-[14px] leading-7 text-[#657066]">
+            Engineers, designers, and operators working to make solar management more intelligent and effortless.
           </p>
         </div>
 
-        {/* Clean Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {TEAM_MEMBERS.map((member, idx) => (
-            <div 
-              key={idx} 
-              className="group bg-white rounded-[2rem] p-8 border border-slate-200 shadow-sm shadow-slate-200/50 hover:shadow-xl hover:shadow-blue-900/5 hover:border-blue-300 transition-all duration-300 hover:-translate-y-2 flex flex-col"
+        {/* Grid of cards */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {TEAM_MEMBERS.map((m, i) => (
+            <div
+              key={i}
+              className="group relative flex flex-col overflow-hidden border border-[#203a30]/10 bg-[#f7f7f2] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#829578]/50 hover:shadow-[0_18px_45px_-32px_rgba(31,58,48,0.55)] sm:p-7"
             >
-              {/* Header: Avatar + Info */}
-              <div className="flex items-center gap-5 mb-6">
-                <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-blue-50 shadow-inner group-hover:border-blue-100 transition-colors">
-                  <img 
-                    src={member.image} 
-                    alt={member.name}
-                    className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500"
+              <div className="flex items-center gap-4 mb-5 relative z-10">
+                <div className="relative h-[60px] w-[60px] shrink-0 overflow-hidden rounded-full border border-[#203a30]/10 bg-[#e6e9e1]">
+                  <Image
+                    src={m.image}
+                    alt={m.name}
+                    fill
+                    sizes="60px"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-slate-900">{member.name}</h3>
-                  <p className="text-sm font-bold tracking-wide uppercase text-blue-600 mt-1">
-                    {member.role}
-                  </p>
+                  <h3 className="text-[16px] font-bold leading-tight text-[#2c4437]">{m.name}</h3>
+                  <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#8b6744]">{m.role}</p>
                 </div>
               </div>
 
-              {/* Bio */}
-              <p className="text-slate-600 text-base leading-relaxed flex-1 mb-8 font-medium">
-                {member.bio}
-              </p>
-              
-              {/* Social Links */}
-              <div className="flex items-center gap-3 pt-6 border-t border-slate-100 mt-auto">
-                <button className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5">
-                  <Link className="w-4 h-4" />
-                </button>
-                <button className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5">
-                  <Mail className="w-4 h-4" />
-                </button>
-                <button className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5">
-                  <Globe className="w-4 h-4" />
-                </button>
+              <p className="relative z-10 mb-6 flex-1 text-[13px] leading-[1.8] text-[#6d786f]">{m.bio}</p>
+
+              <div className="relative z-10 flex gap-2 border-t border-[#203a30]/10 pt-4">
+                {[Link, Mail, Globe].map((Icon, j) => (
+                  <button
+                    key={j}
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-[#203a30]/10 bg-white text-[#71806f] transition-colors hover:border-[#8b6744]/30 hover:text-[#8b6744]"
+                  >
+                    <Icon className="w-3.5 h-3.5" />
+                  </button>
+                ))}
               </div>
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );

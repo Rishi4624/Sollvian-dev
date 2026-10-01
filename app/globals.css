@@ -1,20 +1,22 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────────────────── */
-/* Design tokens — exact match to styles.css                  */
+/* Shared palette */
 /* ─────────────────────────────────────────────────────────── */
 :root {
-  --bg:   #fdfdfc;
-  --ink:  #2c3327;
-  --muted: #797a72;
-  --line: rgba(0, 0, 0, 0.08);
-  --cyan: #6b705c; /* Using variable for primary accent */
-  --card: #ffffff;
+  --bg: #f7f7f2;
+  --ink: #203a30;
+  --muted: #6b756d;
+  --line: rgba(32, 58, 48, 0.12);
+  --accent: #8b6744;
+  --card: #fffefa;
 }
 
 /* ─── Reset ──────────────────────────────────────────────── */
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); }
+section[id] { scroll-margin-top: 5rem; }
 
 
 a { color: inherit; }
@@ -64,4 +66,4 @@ button, input, select, textarea { font: inherit; }
 
 .animate-fade-up {
   animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
+}

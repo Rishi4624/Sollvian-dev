@@ -26,7 +26,7 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
   };
 
   return (
-    <div className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#050d1b]/70 backdrop-blur-xl transition-opacity duration-1000 ${stage === 'closing' ? 'opacity-0' : 'opacity-100'}`}>
+    <div className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#203a30]/55 backdrop-blur-xl transition-opacity duration-1000 ${stage === 'closing' ? 'opacity-0' : 'opacity-100'}`}>
       <div
         className={`relative w-64 h-64 sm:w-80 sm:h-80 shadow-2xl ${stage === 'opening' ? 'animate-circle-open' :
           stage === 'closing' ? 'animate-circle-close' : ''
