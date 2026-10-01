@@ -1,10 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-
 import { useState, useEffect } from 'react';
 import MobileMenu from './MobileMenu';
 import { usePathname } from 'next/navigation';
+import { Menu, X } from 'lucide-react';
 
 const NAV_ITEMS = [
   { label: 'Home', href: '/home' },
@@ -17,6 +17,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const [active, setActive] = useState('home');
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     if (pathname && pathname !== '/') {
@@ -24,124 +25,63 @@ export default function Header() {
     }
   }, [pathname]);
 
-  /* Track active section */
   useEffect(() => {
-    const ids = NAV_ITEMS.map((n) => n.href.slice(1));
-    const observers: IntersectionObserver[] = [];
-
-    ids.forEach((id) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const obs = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActive(id); },
-        { rootMargin: '-40% 0px -55% 0px' }
-      );
-      obs.observe(el);
-      observers.push(obs);
-    });
-
-    return () => observers.forEach((o) => o.disconnect());
-  }, []);
-
-  const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 });
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
     };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
     <>
-      <header className="sticky top-0 z-40  bg-transparent backdrop-blur-md">
-        {/* ── Main row ── */}
-        <div className="flex items-center justify-between gap-4 py-3 w-[min(72rem,calc(100%-2rem))] mx-auto">
+      <header className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 w-[95%] max-w-4xl`}>
+        <div className={`flex items-center justify-between px-6 py-3 rounded-full backdrop-blur-xl border transition-all duration-300 ${scrolled ? 'bg-white/70 border-black/10 shadow-lg shadow-black/5' : 'bg-white/40 border-black/5 shadow-sm'}`}>
           {/* Logo */}
-          <Link className="inline-flex items-center gap-[0.65rem] no-underline" id="brand" href="#home">
-            <img src="/favicon.ico" alt="Sollvian Logo" width="32" height="32" className="object-contain rounded-md" />
+          <Link className="flex items-center gap-3 no-underline group" id="brand" href="#home">
+            <div className="w-9 h-9 rounded-full bg-[#2c3327] flex items-center justify-center text-white font-serif font-bold text-lg group-hover:scale-105 transition-transform">
+              S
+            </div>
             <span className="flex flex-col leading-none">
-              <span className="text-[15px] font-semibold tracking-[-0.02em]">Sollvian</span>
-              <span className="mt-[2px] text-[10px] font-semibold tracking-[0.16em] uppercase text-sky-300/80">AI Tech</span>
+              <span className="text-sm font-bold tracking-tight text-[#2c3327]">Sollvian</span>
+              <span className="mt-1 text-[9px] font-bold tracking-[0.2em] uppercase text-[#6b705c]">AI Tech</span>
             </span>
           </Link>
 
-          {/* ── Desktop dot-rail (hidden below 1024px) ── */}
-          <nav className="hidden lg:flex flex-1 justify-center px-2" aria-label="Main navigation">
-            <div className="w-full max-w-3xl relative">
-              <ul className="flex justify-between relative m-0 p-0 list-none before:content-[''] before:absolute before:left-[8%] before:right-[8%] before:top-[9px] before:h-[1px] before:bg-gradient-to-r before:from-sky-400/20 before:via-cyan-300/70 before:to-blue-600/20">
-                {NAV_ITEMS.map((item) => {
-                  const id = item.href.slice(1);
-                  const isActive = active === id;
-                  return (
-                    <li className="relative z-10 flex-1 flex flex-col items-center text-center" key={id}>
-                      <Link
-                        href={item.href}
-                        className="flex flex-col items-center gap-2 px-1 border-0 bg-transparent text-inherit cursor-pointer no-underline group"
-                        aria-current={isActive ? 'true' : undefined}
-                      >
-                        <span className={`w-[18px] h-[18px] rounded-full border flex items-center justify-center transition-all duration-200 ${isActive ? 'border-cyan-300 bg-cyan-400 shadow-[0_0_18px_rgba(34,211,238,0.55)]' : 'border-sky-300/50 bg-[#071226]'}`}>
-                          <span className={`w-[6px] h-[6px] rounded-full bg-white transition-opacity duration-200 ${isActive ? 'opacity-90' : 'opacity-40'}`} />
-                        </span>
-                        <span className={`text-[11px] font-medium transition-colors duration-200 ${isActive ? 'text-cyan-200' : 'text-slate-400'}`}>{item.label}</span>
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
+          {/* Desktop Nav */}
+          <nav className="hidden lg:flex items-center gap-1">
+            {NAV_ITEMS.map((item) => {
+              const id = item.href.slice(1);
+              const isActive = active === id;
+              return (
+                <Link
+                  key={id}
+                  href={item.href}
+                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${isActive ? 'bg-[#2c3327] text-white shadow-md' : 'text-[#4a533a] hover:bg-black/5'}`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
           </nav>
 
-          {/* ── Actions ── */}
-          <div className="flex items-center gap-2">
-            {/* Talk to us — shows at ≥640px */}
+          {/* Actions */}
+          <div className="flex items-center gap-3">
             <Link
               href="/contact"
-              className="hidden sm:inline-flex items-center justify-center h-10 px-5 rounded-full border-0 text-sm font-medium cursor-pointer bg-cyan-500 text-[#041018] hover:bg-cyan-300 transition-colors no-underline"
-              id="talk"
+              className="hidden sm:inline-flex items-center justify-center h-10 px-6 rounded-full text-sm font-bold bg-[#2c3327] text-white hover:bg-[#4a533a] transition-all shadow-sm hover:shadow-md"
             >
-              Book demo
+              Get Started
             </Link>
-            {/* Hamburger — hidden at ≥1024px */}
+            
             <button
-              className="lg:hidden w-8 h-8 rounded-lg border border-white/15 bg-white/5 text-white flex items-center justify-center cursor-pointer p-0"
-              id="menu-open"
-              type="button"
-              aria-label="Open menu"
+              className="lg:hidden w-10 h-10 rounded-full border border-black/10 bg-white/50 text-[#2c3327] flex items-center justify-center hover:bg-white"
               onClick={() => setMenuOpen(true)}
             >
-              ☰
+              <Menu size={20} />
             </button>
           </div>
         </div>
-
-        {/* ── Mobile rail (below header row, hidden at ≥1024px) ── */}
-        <nav className="lg:hidden border-t border-white/5 pt-2 pb-3 px-3" aria-label="Mobile navigation">
-          <div className="w-full max-w-3xl mx-auto relative">
-            <ul className="flex justify-between relative m-0 p-0 list-none before:content-[''] before:absolute before:left-[8%] before:right-[8%] before:top-[9px] before:h-[1px] before:bg-gradient-to-r before:from-sky-400/20 before:via-cyan-300/70 before:to-blue-600/20">
-              {NAV_ITEMS.map((item) => {
-                const id = item.href.slice(1);
-                const isActive = active === id;
-                return (
-                  <li className="relative z-10 flex-1 flex flex-col items-center text-center" key={id}>
-                    <Link
-                      href={item.href}
-                      className="flex flex-col items-center gap-2 px-1 border-0 bg-transparent text-inherit cursor-pointer no-underline group"
-                      aria-current={isActive ? 'true' : undefined}
-                    >
-                      <span className={`w-[18px] h-[18px] rounded-full border flex items-center justify-center transition-all duration-200 ${isActive ? 'border-cyan-300 bg-cyan-400 shadow-[0_0_18px_rgba(34,211,238,0.55)]' : 'border-sky-300/50 bg-[#071226]'}`}>
-                        <span className={`w-[6px] h-[6px] rounded-full bg-white transition-opacity duration-200 ${isActive ? 'opacity-90' : 'opacity-40'}`} />
-                      </span>
-                      <span className={`text-[11px] font-medium transition-colors duration-200 ${isActive ? 'text-cyan-200' : 'text-slate-400'}`}>{item.label}</span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </nav>
       </header>
 
       <MobileMenu

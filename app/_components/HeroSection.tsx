@@ -1,10 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-
 import { useEffect, useState, useRef } from 'react';
 import VersionBadge from '@/app/_components/VersionBadge';
 import LoadingIndicator from '@/app/_components/LoadingIndicator';
+import { ArrowRight, Play } from 'lucide-react';
 
 const demoVideo = '/videos/sollvian-demo.mov';
 
@@ -16,12 +16,9 @@ export default function HeroSection({ onDownload }: HeroSectionProps) {
   const [isVideoReady, setIsVideoReady] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Attempt to play on mount and observe visibility
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-
-    video.play().catch(() => { });
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -35,70 +32,68 @@ export default function HeroSection({ onDownload }: HeroSectionProps) {
       },
       { threshold: 0.1 }
     );
-
     observer.observe(video);
-
-    return () => {
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
   }, []);
 
   return (
-    <>
-      <section
-        className="relative overflow-hidden pt-14 pb-20  bg-transparent scroll-mt-28 lg:scroll-mt-24"
-        id="home"
-      >
+    <section className="relative pt-40 pb-24 overflow-hidden" id="home">
+      {/* Decorative Background Blob */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#a5a58d]/15 rounded-full blur-[100px] pointer-events-none -z-10" />
+      
+      <div className="w-[min(80rem,calc(100%-2rem))] mx-auto flex flex-col items-center text-center">
+        
+        {/* Top badge */}
+        <div className="animate-fade-up opacity-0" style={{ animationDelay: '0.1s', animationFillMode: 'forwards' }}>
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#a5a58d]/30 bg-[#f0ebe1]/50 text-[#6b705c] text-xs font-bold tracking-widest uppercase mb-8 shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-[#6b705c] animate-pulse"></span>
+            Smart Solar Infrastructure
+          </span>
+        </div>
 
-        <div className="relative z-10 w-[min(72rem,calc(100%-2rem))] mx-auto grid gap-12 items-center lg:grid-cols-[1.05fr_0.95fr]">
-          <div>
-            <p className="m-0 text-[12px] font-bold tracking-[0.22em] uppercase text-cyan-300/90">Smart solutions · Lasting impact</p>
-            <h1 className="mt-4 mb-0 max-w-2xl text-[clamp(2rem,5vw,3rem)] tracking-[-0.03em] leading-[1.15] text-[#e8eef7]">Turning ideas into intelligent solutions</h1>
-            <p className="mt-5 mb-0 max-w-2xl text-slate-300 leading-[1.7]">
-              Sollvian AI Tech transforms the journey from the first customer conversation into a complete, long-term solar management system—covering Proposal & ROI, Installation Tracking, Solar Structure Design, CRM, and a comprehensive Customer 360.
+        {/* Huge Typography */}
+        <h1 className="animate-fade-up opacity-0 text-[clamp(2.5rem,7vw,5.5rem)] font-extrabold tracking-[-0.04em] text-[#2c3327] leading-[1.05] max-w-5xl mb-8" style={{ animationDelay: '0.2s', animationFillMode: 'forwards' }}>
+          Intelligent solutions for <span className="text-[#a5a58d] relative inline-block">modern solar<svg className="absolute -bottom-2 left-0 w-full h-3 text-[#a5a58d]/30" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0,5 Q50,10 100,5" stroke="currentColor" strokeWidth="4" fill="none"/></svg></span> teams.
+        </h1>
 
-            </p>
-            <div className="flex flex-wrap gap-3 mt-8">
-              <Link className="inline-flex items-center justify-center h-10 px-5 rounded-full border-0 text-sm font-medium cursor-pointer bg-cyan-500 text-[#041018] hover:bg-cyan-600 transition-colors no-underline" href="#product" id="hero-see-product">
-                See the product
-              </Link>
-              <button
-                className="inline-flex items-center justify-center h-10 px-5 rounded-full text-sm font-medium cursor-pointer border border-white/15 bg-white/5 text-white hover:bg-white/10 transition-colors"
-                id="hero-download"
-                type="button"
-                onClick={onDownload}
-              >
-                Download package
-              </button>
-            </div>
+        <p className="animate-fade-up opacity-0 text-lg md:text-xl text-[#4a533a] max-w-2xl mb-10 leading-relaxed" style={{ animationDelay: '0.3s', animationFillMode: 'forwards' }}>
+          Transform the journey from the first customer conversation into a complete long-term solar management system. Proposal, tracking, and CRM in one hub.
+        </p>
 
-            <VersionBadge />
-          </div>
+        {/* Buttons */}
+        <div className="animate-fade-up opacity-0 flex flex-wrap items-center justify-center gap-4 mb-16" style={{ animationDelay: '0.4s', animationFillMode: 'forwards' }}>
+          <Link href="#product" className="inline-flex items-center gap-2 h-14 px-8 rounded-full text-base font-bold bg-[#2c3327] text-white hover:bg-[#4a533a] hover:scale-105 transition-all duration-300 shadow-xl shadow-black/10 group">
+            Explore Platform <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
+          <button onClick={onDownload} className="inline-flex items-center gap-2 h-14 px-8 rounded-full text-base font-bold bg-white text-[#2c3327] border border-black/10 hover:border-black/20 hover:bg-gray-50 transition-all shadow-sm hover:shadow-md">
+            <Play className="w-4 h-4 fill-[#a5a58d] text-[#a5a58d]" /> Watch Demo
+          </button>
+        </div>
 
-          <div className="overflow-hidden rounded-[1.2rem] bg-[linear-gradient(180deg,rgba(2,8,23,0.9),rgba(2,6,23,1))] border border-cyan-400/25 shadow-[0_0_80px_rgba(14,116,144,0.18)] min-h-[200px] flex items-center justify-center p-[0.9rem]">
-            <div className="relative w-full rounded-2xl overflow-hidden border border-slate-400/15 bg-[#020817] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)] h-full">
-              {!isVideoReady && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black z-10">
-                  <LoadingIndicator />
-                </div>
-              )}
-              <video
-                ref={videoRef}
-                className="block w-full h-auto aspect-video object-cover bg-[#020617]"
-                src={demoVideo}
-                controls
-                playsInline
-                autoPlay
-                muted
-                loop
-                preload="auto"
-                onCanPlay={() => setIsVideoReady(true)}
-                style={{ opacity: isVideoReady ? 1 : 0 }}
-              />
-            </div>
+        {/* Cinematic Video Player */}
+        <div className="animate-fade-up opacity-0 w-full max-w-6xl mx-auto rounded-3xl p-2 bg-white/40 backdrop-blur-md border border-white/50 shadow-2xl" style={{ animationDelay: '0.5s', animationFillMode: 'forwards' }}>
+          <div className="relative w-full rounded-2xl overflow-hidden bg-black aspect-video shadow-inner">
+            {!isVideoReady && (
+              <div className="absolute inset-0 flex items-center justify-center bg-[#2c3327]">
+                <LoadingIndicator />
+              </div>
+            )}
+            <video
+              ref={videoRef}
+              className="block w-full h-full object-cover scale-105"
+              src={demoVideo}
+              controls={false}
+              playsInline
+              autoPlay
+              muted
+              loop
+              onCanPlay={() => setIsVideoReady(true)}
+              style={{ opacity: isVideoReady ? 1 : 0, transition: 'opacity 1s ease' }}
+            />
           </div>
         </div>
-      </section>
-    </>
+
+      </div>
+    </section>
   );
 }
