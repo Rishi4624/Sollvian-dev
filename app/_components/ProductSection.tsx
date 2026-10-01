@@ -58,7 +58,7 @@ export default function ProductSection() {
   const handleSelect = (index: number) => {
     if (index !== activeIdx) {
       setActiveIdx(index);
-      setAnimationKey(prev => prev + 1); // Trigger re-animation
+      setAnimationKey(prev => prev + 1);
     }
   };
 
@@ -66,15 +66,18 @@ export default function ProductSection() {
   const ActiveIcon = activeProduct.icon;
 
   return (
-    <section className="py-24 bg-[#fdfdfc] text-[#2c3327] relative overflow-hidden font-sans" id="product">
+    <section className="py-24 bg-white text-slate-900 relative overflow-hidden font-sans border-t border-slate-100" id="product">
       <div className="w-[min(80rem,calc(100%-2rem))] mx-auto px-4 sm:px-6 relative z-10">
         
         {/* Section Header */}
         <div className="mb-16 max-w-3xl animate-fade-up">
-          <h2 className="text-[clamp(2.5rem,4vw,3.5rem)] font-extrabold tracking-tight text-[#2c3327] leading-tight mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-blue-200 bg-blue-50 text-blue-600 text-xs font-bold tracking-widest uppercase mb-6 shadow-sm">
+            Platform Capabilities
+          </div>
+          <h2 className="text-[clamp(2.5rem,4vw,3.5rem)] font-extrabold tracking-tight text-slate-900 leading-tight mb-6">
             The complete toolkit.
           </h2>
-          <p className="text-[#4a533a] text-lg md:text-xl leading-relaxed">
+          <p className="text-slate-600 text-lg md:text-xl leading-relaxed font-medium">
             Designed specifically for solar professionals. Ditch the fragmented spreadsheets and manage your entire lifecycle seamlessly from one intelligent hub.
           </p>
         </div>
@@ -93,20 +96,20 @@ export default function ProductSection() {
                   onClick={() => handleSelect(idx)}
                   className={`group flex items-center gap-4 p-4 rounded-2xl w-full text-left transition-all duration-300 border ${
                     isActive 
-                      ? 'bg-[#2c3327] border-[#2c3327] text-white shadow-lg translate-x-2' 
-                      : 'bg-white border-black/5 hover:border-black/15 text-[#4a533a] hover:bg-gray-50'
+                      ? 'bg-slate-900 border-slate-900 text-white shadow-xl translate-x-2' 
+                      : 'bg-white border-slate-200 hover:border-blue-300 text-slate-600 hover:bg-blue-50/50'
                   }`}
                 >
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
-                    isActive ? 'bg-white/10 text-white' : 'bg-[#f0ebe1] text-[#6b705c] group-hover:bg-[#e3e1d9]'
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-colors shadow-sm ${
+                    isActive ? 'bg-white/15 text-white' : 'bg-slate-50 text-slate-400 group-hover:bg-blue-100 group-hover:text-blue-600'
                   }`}>
                     <Icon className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className={`text-xs font-bold tracking-widest uppercase mb-1 ${isActive ? 'text-[#a5a58d]' : 'text-[#a5a58d]'}`}>
+                    <div className={`text-xs font-bold tracking-widest uppercase mb-1 ${isActive ? 'text-blue-400' : 'text-slate-400'}`}>
                       Module {p.num}
                     </div>
-                    <div className={`font-bold text-lg ${isActive ? 'text-white' : 'text-[#2c3327]'}`}>
+                    <div className={`font-bold text-lg ${isActive ? 'text-white' : 'text-slate-900'}`}>
                       {p.title}
                     </div>
                   </div>
@@ -116,20 +119,20 @@ export default function ProductSection() {
           </div>
 
           {/* Right Content Display */}
-          <div className="lg:col-span-8 bg-white border border-black/5 rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative overflow-hidden min-h-[500px] flex items-center">
+          <div className="lg:col-span-8 bg-slate-50/50 border border-slate-200 rounded-[2.5rem] p-8 md:p-12 shadow-xl relative overflow-hidden min-h-[500px] flex items-center">
             {/* Decorative background blur */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-[#f0ebe1] rounded-full blur-[100px] opacity-60 -mr-20 -mt-20 pointer-events-none" />
+            <div className="absolute top-0 right-0 w-96 h-96 bg-blue-100 rounded-full blur-[100px] opacity-60 -mr-20 -mt-20 pointer-events-none" />
             
             <div key={animationKey} className="relative z-10 w-full animate-fade-up">
               
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10 pb-10 border-b border-black/5">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10 pb-10 border-b border-slate-200">
                 <div className="flex items-center gap-5">
-                  <div className="w-16 h-16 rounded-2xl bg-[#f0ebe1] flex items-center justify-center text-[#6b705c]">
+                  <div className="w-16 h-16 rounded-2xl bg-white shadow-sm border border-slate-100 flex items-center justify-center text-blue-600">
                     <ActiveIcon className="w-8 h-8" />
                   </div>
                   <div>
-                    <h3 className="text-3xl font-extrabold text-[#2c3327] mb-2">{activeProduct.title}</h3>
-                    <p className="text-[#a5a58d] font-semibold tracking-wide uppercase text-sm">
+                    <h3 className="text-3xl font-extrabold text-slate-900 mb-2">{activeProduct.title}</h3>
+                    <p className="text-blue-600 font-bold tracking-wide uppercase text-sm">
                       {activeProduct.metric}
                     </p>
                   </div>
@@ -138,22 +141,22 @@ export default function ProductSection() {
 
               <div className="grid md:grid-cols-2 gap-10">
                 <div>
-                  <h4 className="text-xl font-bold text-[#2c3327] mb-4">Overview</h4>
-                  <p className="text-[#4a533a] leading-relaxed text-lg mb-8">
+                  <h4 className="text-xl font-bold text-slate-900 mb-4">Overview</h4>
+                  <p className="text-slate-600 leading-relaxed text-lg mb-8">
                     {activeProduct.description}
                   </p>
-                  <button className="inline-flex items-center gap-2 font-bold text-[#6b705c] hover:text-[#2c3327] transition-colors group">
+                  <button className="inline-flex items-center gap-2 font-bold text-blue-600 hover:text-blue-800 transition-colors group">
                     View full documentation <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </button>
                 </div>
                 
-                <div className="bg-[#fcfcfb] rounded-2xl p-6 border border-black/5">
-                  <h4 className="text-sm font-bold uppercase tracking-widest text-[#a5a58d] mb-6">Key Features</h4>
+                <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+                  <h4 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6">Key Features</h4>
                   <ul className="space-y-4">
                     {activeProduct.features.map((feature, i) => (
                       <li key={i} className="flex items-start gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-[#6b705c] shrink-0" />
-                        <span className="text-[#2c3327] font-medium">{feature}</span>
+                        <CheckCircle2 className="w-5 h-5 text-blue-500 shrink-0" />
+                        <span className="text-slate-700 font-semibold">{feature}</span>
                       </li>
                     ))}
                   </ul>

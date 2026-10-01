@@ -71,18 +71,18 @@ export default function NewsSection() {
   }, [articles, isLoading]);
 
   return (
-    <section className="relative overflow-hidden py-24 bg-[#f0ebe1]" id="news">
+    <section className="relative overflow-hidden py-24 bg-slate-50 border-t border-slate-100" id="news">
       <div className="w-[min(80rem,calc(100%-2rem))] mx-auto relative z-10">
         
         {/* Header */}
         <div className="mb-16 text-center max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#a5a58d]/30 bg-white text-[#6b705c] text-xs font-bold tracking-widest uppercase mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-blue-200 bg-white text-blue-600 text-xs font-bold tracking-widest uppercase mb-6 shadow-sm">
             Industry News
           </div>
-          <h2 className="text-[clamp(2.5rem,5vw,4rem)] font-extrabold tracking-tight text-[#2c3327] leading-[1.1] mb-6">
+          <h2 className="text-[clamp(2.5rem,5vw,4rem)] font-extrabold tracking-tight text-slate-900 leading-[1.1] mb-6">
             Latest in Solar Energy.
           </h2>
-          <p className="mt-4 text-[#4a533a] text-lg md:text-xl leading-relaxed">
+          <p className="mt-4 text-slate-600 text-lg md:text-xl leading-relaxed font-medium">
             Stay updated with the top 5 newest trends, technology, and insights from the worldwide solar industry.
           </p>
         </div>
@@ -90,7 +90,7 @@ export default function NewsSection() {
         {/* Loading State */}
         {isLoading && articles.length === 0 && (
           <div className="flex justify-center items-center min-h-[300px]">
-            <div className="w-10 h-10 rounded-full border-4 border-[#6b705c] border-t-transparent animate-spin" />
+            <div className="w-10 h-10 rounded-full border-4 border-blue-600 border-t-transparent animate-spin" />
           </div>
         )}
 
@@ -103,8 +103,8 @@ export default function NewsSection() {
 
         {/* Empty State */}
         {!isLoading && !error && articles.length === 0 && (
-          <div className="p-8 bg-white border border-black/5 rounded-3xl text-center shadow-sm">
-            <p className="text-[#4a533a] font-medium text-lg">No news articles found at this time.</p>
+          <div className="p-8 bg-white border border-slate-200 rounded-3xl text-center shadow-sm">
+            <p className="text-slate-500 font-medium text-lg">No news articles found at this time.</p>
           </div>
         )}
 
@@ -117,10 +117,10 @@ export default function NewsSection() {
                 href={article.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex flex-col bg-white border border-black/5 rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 w-[300px] sm:w-[340px] shrink-0 snap-start"
+                className="group flex flex-col bg-white border border-slate-200 rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-300 hover:-translate-y-2 transition-all duration-300 w-[300px] sm:w-[340px] shrink-0 snap-start"
               >
                 {article.image && (
-                  <div className="h-48 overflow-hidden relative border-b border-black/5">
+                  <div className="h-48 overflow-hidden relative border-b border-slate-100">
                     <img 
                       src={article.image} 
                       alt={article.title} 
@@ -130,20 +130,20 @@ export default function NewsSection() {
                 )}
                 <div className="p-6 flex flex-col flex-grow">
                   <div className="flex justify-between items-center mb-4">
-                    <span className="text-[10px] font-bold text-[#6b705c] uppercase tracking-widest bg-[#f0ebe1] px-3 py-1 rounded-full">
+                    <span className="text-[10px] font-bold text-blue-600 uppercase tracking-widest bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
                       {article.source.name}
                     </span>
-                    <span className="text-xs font-medium text-[#a5a58d]">
+                    <span className="text-xs font-medium text-slate-400">
                       {new Date(article.publishedAt).toLocaleDateString()}
                     </span>
                   </div>
-                  <h3 className="text-lg font-bold text-[#2c3327] mb-3 line-clamp-2 leading-snug group-hover:text-[#6b705c] transition-colors">
+                  <h3 className="text-lg font-bold text-slate-900 mb-3 line-clamp-2 leading-snug group-hover:text-blue-600 transition-colors">
                     {article.title}
                   </h3>
-                  <p className="text-sm text-[#4a533a] leading-relaxed line-clamp-3 mb-0 flex-grow">
+                  <p className="text-sm text-slate-600 leading-relaxed line-clamp-3 mb-0 flex-grow">
                     {article.description}
                   </p>
-                  <div className="mt-6 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#6b705c] opacity-80 group-hover:opacity-100 transition-opacity">
+                  <div className="mt-6 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-600 opacity-80 group-hover:opacity-100 transition-opacity">
                     Read Article <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-2 transition-transform" />
                   </div>
                 </div>
