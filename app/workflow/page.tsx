@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import Image from 'next/image';
+import { useState, type ReactNode } from 'react';
 import Header from '@/app/_components/Header';
 import Footer from '@/app/_components/Footer';
 import {
   FileText, Activity, Layers, Users, ShieldCheck,
-  ChevronLeft, ChevronRight, CheckCircle2, ArrowRight
+  ChevronLeft, ChevronRight, CheckCircle2
 } from 'lucide-react';
 
 const MODULES = [
@@ -15,11 +16,12 @@ const MODULES = [
     detail: 'We gather the site, the buyer, and the numbers that have to survive after the signature. The document that goes out is specific enough to build from.',
     icon: FileText,
     features: [
-      { title: 'Site Assessment & Shading Analysis', desc: 'Precise irradiance modeling and shadow simulation for accurate yield prediction.' },
-      { title: 'Financial Modeling & Payback Horizon', desc: 'Real-time ROI calculation factoring in local tariffs, subsidies and degradation curves.' },
-      { title: 'Bespoke Proposal Generation', desc: 'One-click export of engineering-ready proposals customized for enterprise stakeholders.' },
+      { title: 'Accurate solar estimates', desc: 'Use NASA climate data for the customer\'s location and the selected equipment.' },
+      { title: 'Automatic cost and savings calculations', desc: 'Calculate GST payback time 25-year savings and inverter sizing.' },
+      { title: 'Proposal history', desc: 'Find earlier proposals and make revisions without replacing the original.' },
+      { title: 'Four follow-up documents', desc: 'Create customer documents from a saved proposal without entering the same details again.' },
+      { title: 'Works offline', desc: 'Use saved climate data and calculate locally when there is no internet connection.' },
     ],
-    metric: '99.4%', metricLabel: 'Forecast Accuracy',
     video: '/videos/proposal_video.mp4',
   },
   {
@@ -28,11 +30,10 @@ const MODULES = [
     detail: 'Crews, sites, and blockers sit on one timeline. A slip is visible the morning it happens, not the week the customer asks.',
     icon: Activity,
     features: [
-      { title: 'Live Milestone Timeline', desc: 'Track permitting, delivery, staging and commissioning across all active job sites.' },
+      { title: 'Live Milestone Timeline', desc: 'Track permitting delivery staging and commissioning across all active job sites.' },
       { title: 'Automated Blocker Alerts', desc: 'Instant notifications when material delays or labor bottlenecks threaten project velocity.' },
       { title: 'Field Crew Dispatch & Sync', desc: 'Mobile-first updates from site leads feeding directly into the central dashboard.' },
     ],
-    metric: '35%', metricLabel: 'Faster Completion',
     video: '/videos/installation_trecking.mp4',
   },
   {
@@ -42,10 +43,9 @@ const MODULES = [
     icon: Layers,
     features: [
       { title: 'Structural Load Simulation', desc: 'Wind load and snow load stress testing configured for local geological standards.' },
-      { title: 'Bill of Materials Automation', desc: 'Instant generation of exact fastener counts, rail lengths and racking requirements.' },
-      { title: 'Ground & Rooftop Compatibility', desc: 'Seamless switching between ballasted flat roof, pitched roof and ground-mount arrays.' },
+      { title: 'Bill of Materials Automation', desc: 'Instant generation of exact fastener counts rail lengths and racking requirements.' },
+      { title: 'Ground & Rooftop Compatibility', desc: 'Seamless switching between ballasted flat roof pitched roof and ground-mount arrays.' },
     ],
-    metric: '100%', metricLabel: 'Engineering Compliance',
     video: '/videos/structure_design.mp4',
   },
   {
@@ -54,11 +54,10 @@ const MODULES = [
     detail: 'Notes, next actions and the last promise live together. The account view is what a person would say if you asked how the work is going.',
     icon: Users,
     features: [
-      { title: 'Unified Account Timeline', desc: 'All communications, proposals, site notes and calls ordered in a single chronological stream.' },
+      { title: 'Unified Account Timeline', desc: 'All communications proposals site notes and calls ordered in a single chronological stream.' },
       { title: 'Next-Action Reminders', desc: 'Never drop a follow-up with automated prompt triggers tied to project milestones.' },
       { title: 'Pipeline Health Analytics', desc: 'Visual forecasting for commercial solar deals from initial lead to signed PPA.' },
     ],
-    metric: '4.8x', metricLabel: 'Pipeline Visibility',
     video: '/videos/CRM_demo_3.mp4',
   },
   {
@@ -67,14 +66,419 @@ const MODULES = [
     detail: 'Contracts, tickets, installs and usage fold into one picture. Support does not start from a blank page.',
     icon: ShieldCheck,
     features: [
-      { title: 'Lifecycle Panoramic View', desc: 'Instantly bridge historical billing, live inverter production telemetry and active service tickets.' },
+      { title: 'Lifecycle Panoramic View', desc: 'Instantly bridge historical billing live inverter production telemetry and active service tickets.' },
       { title: 'Proactive O&M Triggers', desc: 'Automated dispatch for maintenance before generation drops below efficiency thresholds.' },
       { title: 'Client Portal Integration', desc: 'Self-serve executive dashboards giving commercial clients real-time ESG and savings reports.' },
     ],
-    metric: '99.8%', metricLabel: 'Client Retention',
     video: '/videos/customer_360_demo.mp4',
   },
 ];
+
+const PROPOSAL_INPUT_GROUPS = [
+  {
+    title: 'Customer details',
+    rows: [
+      ['Name', 'Customer name shown on the proposal.'],
+      ['Address', 'Used for location and solar estimate.'],
+      ['Map location', 'Optional exact site coordinates.'],
+      ['Phone', 'Contact number for follow-up.'],
+      ['Email', 'Optional customer email for CRM.'],
+    ],
+  },
+  {
+    title: 'Solar system and equipment',
+    rows: [
+      ['Installation type', 'Choose rooftop, ground-mount or carport.'],
+      ['Installation image', 'Upload a layout view of the site.'],
+      ['Panel brand and quantity', 'Select the panel model and number of panels.'],
+      ['Inverter brand and quantity', 'Choose the inverter and matching quantity.'],
+      ['Unit cost', 'Enter the price per kW in INR.'],
+      ['Structure type', 'Select the mounting structure.'],
+    ],
+  },
+  {
+    title: 'Monthly use and billing',
+    rows: [
+      ['Monthly bill data', 'Optional monthly billing values.'],
+      ['Average monthly use', 'Average power usage in kWh per month.'],
+      ['Electricity tariff', 'Grid rate used for savings estimates.'],
+      ['Subsidy', 'Apply subsidy amount if eligible.'],
+    ],
+  },
+];
+
+const PROPOSAL_CALCULATIONS = [
+  ['System capacity', 'Panel count multiplied by panel wattage converted to kilowatts.'],
+  ['Solar generation', 'Estimated electricity produced per day and per month.'],
+  ['System cost', 'System capacity in kilowatts multiplied by the unit cost in INR/kW then multiplied by 1,000.'],
+  ['GST', 'The 2026 calculation applies 5% GST to 70% of the goods cost and 18% GST to 30% of the services cost.'],
+  ['Total cost', 'System cost plus GST.'],
+  ['Net amount to pay', 'Total cost after deducting the entered subsidy.'],
+  ['Bills before and after solar', 'Estimated current monthly bill and estimated monthly bill after installation.'],
+  ['Payback time', 'The estimated number of years for the system to pay for itself calculated year by year using 1% annual generation degradation.'],
+  ['25-year savings', 'Estimated lifetime power-bill savings over 25 years using 0.55% annual panel degradation after year one.'],
+  ['DC overloading', 'A check of panel capacity against inverter capacity to help show whether the system is sized appropriately.'],
+  ['Equipment loss', 'Estimated efficiency loss from temperature and inverter sizing.'],
+  ['Monthly comparison', 'For each month use generation, grid electricity used, solar used, solar exported, bill before and after and percentage saved.'],
+];
+
+const PROPOSAL_HISTORY_ACTIONS = [
+  { title: 'Open a proposal', desc: 'Select a saved proposal to open its full PDF. You can also double click its history row.' },
+  { title: 'Cancel a proposal', desc: 'Enter a reason to mark it cancelled. The history row turns light red and shows its status and reason the PDF is not deleted.' },
+  { title: 'Revise a proposal', desc: 'Load its details back into the form and submit an updated version. New versions get suffixes such as -RP1 and -RP2 and the earlier versions remain in history.' },
+  { title: 'Delete a proposal', desc: 'After confirmation permanently delete its database record. The PDF file remains on the computer.' },
+];
+
+const PROPOSAL_DOCUMENTS = [
+  {
+    title: 'Work Completion Certificate',
+    desc: 'A Word document for the completed installation. It includes customer and site details, proposal reference, system capacity, panel and inverter brands, completion date, a work checklist, payment summary when available, and signature spaces for the customer and company.',
+  },
+  {
+    title: 'Vendor Agreement',
+    desc: 'A Word agreement with 15 legal clauses for the customer and company to sign before installation. It covers the work and materials, payment schedule, warranties, performance promises, subsidy support, net metering, defect liability, force majeure and dispute resolution under the Arbitration Act 1996. It includes signature and witness spaces.',
+  },
+  {
+    title: 'Net Metering Agreement',
+    desc: 'A Word document for the grid connection process. It includes customer details, proposal reference, system capacity, grid import and export terms, electricity provider terms and signature spaces.',
+  },
+  {
+    title: 'Commissioning Report',
+    desc: 'A Word handover document for the tested, switched-on system. It includes project details, panels, inverter, mounting, cabling and earthing electrical checks for DC voltage, AC output, earthing resistance, insulation and polarity (marked Pass) an eight point checklist initial generation status (Operational) engineer notes and customer acceptance signatures.',
+  },
+];
+
+const COMPANY_PROFILE_FIELDS = [
+  ['Company name and logo', 'Used on proposal covers specification pages and single page proposals.'],
+  ['Address, phone, email and website', 'Used in proposal contact details and footers.'],
+  ['GSTIN and customer ID prefix', 'The GSTIN appears in the proposal company details the prefix helps create customer IDs when proposals are moved to CRM.'],
+  ['Terms and warranty details', 'Added to the relevant pages of the proposal PDF.'],
+  ['Cover image and major-client logos', 'Optional images for the proposal cover and system summary.'],
+  ['Output folder', 'The folder where generated PDF files are saved.'],
+];
+
+function GuideSection({ number, title, intro, image, children }: {
+  number: string;
+  title: string;
+  intro?: string;
+  image?: { src: string; alt: string };
+  children: ReactNode;
+}) {
+  return (
+    <section id={`proposal-${number}`} className="scroll-mt-36 border-t border-[#203a30]/12 py-10 md:py-12">
+      <div className="mb-7 grid gap-3 md:grid-cols-[9rem_1fr] md:gap-8">
+        <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#8b6744]">{number}</div>
+        <div>
+          <h3 className="font-serif text-[1.8rem] leading-tight text-[#203a30]">{title}</h3>
+          {intro && <p className="mt-3 max-w-3xl text-[14px] leading-[1.8] text-[#606b62]">{intro}</p>}
+        </div>
+      </div>
+
+      {image ? (
+        <div className="mb-8 grid gap-6 md:grid-cols-[1.4fr_1.1fr] md:items-start md:gap-8 md:pl-[calc(9rem+2rem)]">
+          {Number(number) % 2 === 0 ? (
+            <>
+              <div className="overflow-hidden rounded-[1.5rem] border border-[#203a30]/8 bg-[#f0ede6] shadow-[0_16px_40px_-20px_rgba(31,58,48,0.25)]">
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  width={1200}
+                  height={800}
+                  sizes="(max-width: 768px) 100vw, 700px"
+                  className="h-64 w-full object-cover md:h-80"
+                />
+              </div>
+              <div>{children}</div>
+            </>
+          ) : (
+            <>
+              <div>{children}</div>
+              <div className="overflow-hidden rounded-[1.5rem] border border-[#203a30]/8 bg-[#f0ede6] shadow-[0_16px_40px_-20px_rgba(31,58,48,0.25)]">
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  width={1200}
+                  height={800}
+                  sizes="(max-width: 768px) 100vw, 700px"
+                  className="h-64 w-full object-cover md:h-80"
+                />
+              </div>
+            </>
+          )}
+        </div>
+      ) : (
+        <div className="md:ml-[calc(9rem+2rem)]">{children}</div>
+      )}
+    </section>
+  );
+}
+
+function ProposalGuide() {
+  return (
+    <section className="mt-20 border-t-2 border-[#244337] pt-12" aria-labelledby="proposal-guide-title">
+      <div className="max-w-3xl pb-10">
+        <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.16em] text-[#8b6744]">Proposal &amp; ROI / Complete guide</p>
+        <h2 id="proposal-guide-title" className="font-serif text-[clamp(2.2rem,4vw,3.5rem)] leading-[1.02] text-[#203a30]">From customer details to project handover</h2>
+        <p className="mt-5 text-[15px] leading-[1.8] text-[#606b62]">
+          The Proposal Module is a desktop app in the Sollvian Suite. Enter customer and site details, review the costs and expected generation then create documents for the customer. The calculations and branded PDF can be prepared in under two minutes, without manually moving information between spreadsheets and word processors.
+        </p>
+      </div>
+
+      <nav aria-label="Proposal guide sections" className="mb-2 grid gap-x-6 gap-y-3 border-y border-[#203a30]/12 py-5 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          ['Overview', 'proposal-overview'],
+          ['Details to enter', 'proposal-details'],
+          ['Calculations', 'proposal-calculations'],
+          ['Create the proposal', 'proposal-create'],
+          ['PDF formats', 'proposal-pdf'],
+          ['History and revisions', 'proposal-history'],
+          ['Company profile', 'proposal-company'],
+          ['After the sale', 'proposal-handover'],
+        ].map(([label, id]) => (
+          <a key={id} href={`#${id}`} className="text-[13px] font-semibold text-[#435348] underline decoration-[#8b6744]/40 underline-offset-4 hover:text-[#244337]">
+            {label}
+          </a>
+        ))}
+      </nav>
+
+      <GuideSection
+        number="01"
+        title="What the module does"
+        intro="The proposal tool takes you from the first customer detail to a branded PDF that can be reviewed, printed, emailed or signed. It also keeps saved proposals available for follow-up."
+        image={{
+          src: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=80',
+          alt: 'Solar panels and a proposal workflow overview',
+        }}
+      >
+        <div id="proposal-overview" className="grid gap-8 lg:grid-cols-[1fr_1fr]">
+          <div>
+            <h4 className="mb-4 text-[13px] font-bold uppercase tracking-[0.12em] text-[#435348]">Three parts of the screen</h4>
+            <dl className="divide-y divide-[#203a30]/10">
+              {[
+                ['Left panel', 'Company tools and actions for creating documents after a sale.'],
+                ['Center panel', 'Proposal history with saved proposals for customers.'],
+                ['Right panel', 'The form for entering customer system and billing details.'],
+              ].map(([label, desc]) => <div key={label} className="grid gap-1 py-3 sm:grid-cols-[8rem_1fr] sm:gap-4"><dt className="text-[13px] font-semibold text-[#203a30]">{label}</dt><dd className="text-[13px] leading-[1.7] text-[#606b62]">{desc}</dd></div>)}
+            </dl>
+          </div>
+          <div>
+            <h4 className="mb-4 text-[13px] font-bold uppercase tracking-[0.12em] text-[#435348]">Residential or commercial</h4>
+            <p className="text-[14px] leading-[1.8] text-[#606b62]">
+              Choose the customer type at the top of the form. The proposal title and icon change to match a home or a business both choices use the same calculation method only the labels and context change.
+            </p>
+            <p className="mt-4 text-[14px] leading-[1.8] text-[#606b62]">
+              The customer address helps identify the city for solar estimates. You can also select exact coordinates on a map when a more precise site location is available.
+            </p>
+          </div>
+        </div>
+      </GuideSection>
+
+      <GuideSection
+        number="02"
+        title="Details to enter"
+        intro="Enter the information you have. Monthly bill details are optional the tool can estimate them when they are not available."
+        image={{
+          src: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=80',
+          alt: 'Customer information form and solar project details',
+        }}
+      >
+        <div id="proposal-details" className="grid gap-5 xl:grid-cols-2">
+          {PROPOSAL_INPUT_GROUPS.map((group) => (
+            <div key={group.title} className="p-0">
+              <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">{group.title}</h4>
+              <dl className="divide-y divide-[#203a30]/10">
+                {group.rows.map(([label, desc]) => <div key={label} className="grid gap-1 py-2.5 sm:grid-cols-[8.5rem_1fr] sm:gap-4"><dt className="text-[12px] font-semibold text-[#435348]">{label}</dt><dd className="text-[12px] leading-[1.6] text-[#606b62]">{desc}</dd></div>)}
+              </dl>
+            </div>
+          ))}
+        </div>
+        <div className="mt-8 border-l-2 border-[#8b6744] bg-[#f0ede6] px-5 py-4">
+          <h4 className="mb-2 text-[13px] font-bold text-[#203a30]">Why the equipment details matter</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">
+            Panel and inverter details come from the equipment catalogue (components.xlsx). Panel specifications include voltage current temperature coefficient and NOCT. Inverter details include efficiency and MPPT range. These real specifications are used in the solar calculations instead of generic guesses.
+          </p>
+        </div>
+      </GuideSection>
+
+      <GuideSection
+        number="03"
+        title="What the module calculates"
+        intro="After you submit the form the calculation engine prepares the system cost and savings figures for the proposal."
+        image={{
+          src: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
+          alt: 'Solar calculations and energy savings dashboard',
+        }}
+      >
+        <div id="proposal-calculations" className="overflow-x-auto">
+          <table className="w-full min-w-[38rem] border-collapse text-left">
+            <thead><tr className="border-b border-[#203a30]/20"><th scope="col" className="py-3 pr-6 text-[11px] font-bold uppercase tracking-[0.12em] text-[#8b6744]">Result</th><th scope="col" className="py-3 text-[11px] font-bold uppercase tracking-[0.12em] text-[#8b6744]">What it means</th></tr></thead>
+            <tbody>{PROPOSAL_CALCULATIONS.map(([label, desc]) => <tr key={label} className="border-b border-[#203a30]/10 align-top"><th scope="row" className="py-3 pr-6 text-[13px] font-semibold text-[#203a30]">{label}</th><td className="py-3 text-[13px] leading-[1.7] text-[#606b62]">{desc}</td></tr>)}</tbody>
+          </table>
+        </div>
+        <div className="mt-8 grid gap-8 lg:grid-cols-2">
+          <div>
+            <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Local sunlight data</h4>
+            <p className="text-[13px] leading-[1.8] text-[#606b62]">
+              The module uses NASA POWER API sunlight data for the customer city and coordinates. For example the guide compares Jodhpur at 6.0 KWH/m2/day with Kolkata at 4.5 KWH/m2/day. If there is no connection it can use saved climate data, including irradiance and temperature values for more than 50 Indian cities. Climate data is cached locally for 30 days after the first data fetch, calculations run on the computer without a server or subscription.
+            </p>
+          </div>
+          <div>
+            <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Monthly estimates when bills are missing</h4>
+            <p className="text-[13px] leading-[1.8] text-[#606b62]">
+              If monthly use is not entered, the default estimate is based on panel count × panel wattage × 4.5 sunlight hours × 30 days × 80% efficiency. Monthly adjustments account for seasonal changes, such as a May factor of 1.10 and a December factor of 0.75.
+            </p>
+          </div>
+        </div>
+      </GuideSection>
+
+      <GuideSection
+        number="04"
+        title="Create and review a proposal"
+        intro="Choose Submit & Review to check the form calculate the results and prepare the customer PDF."
+        image={{
+          src: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80',
+          alt: 'Reviewing and finalizing a solar proposal document',
+        }}
+      >
+        <div id="proposal-create" className="grid gap-8 lg:grid-cols-2">
+          <div>
+            <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Before it creates the proposal</h4>
+            <p className="mb-3 text-[13px] leading-[1.8] text-[#606b62]">The form checks that required details are present and in the right format:</p>
+            <ul className="list-disc space-y-2 pl-5 text-[13px] leading-[1.7] text-[#606b62]">
+              <li>Customer name a selected panel brand, a selected inverter brand and a unit cost greater than zero.</li>
+              <li>At least one panel and a numeric monthly use value.</li>
+              <li>Phone number contains only digits with an optional & sign.</li>
+              <li>Email address is valid when one is provided.</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">What happens next</h4>
+            <ol className="space-y-3">
+              {[
+                ['1', 'Calculations run and the proposal gets a unique reference.'],
+                ['2', 'Two charts are created generation versus use and a monthly breakdown.'],
+                ['3', 'The full PDF is assembled with system cost monthly installation warranty and company details.'],
+                ['4', 'You choose whether to save the proposal in the history database.'],
+                ['5', 'The PDF opens for review printing or emailing.'],
+              ].map(([number, text]) => <li key={number} className="flex gap-3 text-[13px] leading-[1.7] text-[#606b62]"><span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#e8ece3] text-[11px] font-bold text-[#244337]">{number}</span><span>{text}</span></li>)}
+            </ol>
+          </div>
+        </div>
+        <div className="mt-8 grid gap-8 border-t border-[#203a30]/10 pt-6 lg:grid-cols-2">
+          <div>
+            <h4 className="mb-2 text-[14px] font-bold text-[#203a30]">Proposal reference</h4>
+            <p className="text-[13px] leading-[1.8] text-[#606b62]">The reference combines the first three letters of the customer name the date system size and a sequence number. For example <span className="font-mono text-[#203a30]">DIV-20261002-5kW-001</span>. The sequence increases when the same customer gets more than one proposal on the same day.</p>
+          </div>
+          <div>
+            <h4 className="mb-2 text-[14px] font-bold text-[#203a30]">Save or continue without saving</h4>
+            <p className="text-[13px] leading-[1.8] text-[#606b62]">If you save the proposal is stored in SQLite and appears in the history list. If you do not save the PDF is still created and opened but it will not appear in proposal history.</p>
+          </div>
+        </div>
+      </GuideSection>
+
+      <GuideSection
+        number="05"
+        title="Choose a PDF format"
+        intro="Use the full proposal for a detailed presentation or the single-page version for a quick quote."
+        image={{
+          src: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=80',
+          alt: 'Proposal PDF formats and printed solar documents',
+        }}
+      >
+        <div id="proposal-pdf" className="grid gap-10 lg:grid-cols-2">
+          <div>
+            <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Full proposal: six pages</h4>
+            <ol className="divide-y divide-[#203a30]/10">
+              {[
+                ['1. Cover', 'Company branding, contact details, customer, date, reference and optional cover image.'],
+                ['2. System specifications', 'Panel details such as brand, wattage, quantity, voltage and current inverter details such as brand, efficiency and MPPT range system capacity, DC overloading, structure, costs, GST, subsidy, net amount and company information. Major-client logos can also appear when enabled.'],
+                ['3. Monthly summary', 'Monthly use and generation, grid use, solar used and exported, bill comparison and charts.'],
+                ['4. Installation and warranty', 'Installation picture or diagram and the warranty terms from the company profile.'],
+                ['5. System summary', 'System capacity, total cost, payback time, lifetime savings and optional major-client logos.'],
+                ['6. Terms', 'Terms and conditions from the company profile, or the built-in defaults.'],
+              ].map(([title, desc]) => <li key={title} className="py-3"><div className="text-[13px] font-semibold text-[#203a30]">{title}</div><p className="mt-1 text-[13px] leading-[1.7] text-[#606b62]">{desc}</p></li>)}
+            </ol>
+          </div>
+          <div>
+            <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Single-page proposal</h4>
+            <p className="text-[13px] leading-[1.8] text-[#606b62]">A compact option for a quick quote, early discussion or sharing by WhatsApp. It has a green company-branded header and includes the company logo, customer and site details, date and reference, system specifications, cost, GST, subsidy, net amount, payback time, savings and generation.</p>
+            <p className="mt-4 text-[13px] leading-[1.8] text-[#606b62]">You can also select a saved proposal in the history list and create its single-page version again.</p>
+          </div>
+        </div>
+      </GuideSection>
+
+      <GuideSection
+        number="06"
+        title="Find and update saved proposals"
+        intro="The history list keeps saved proposals available when a customer asks a question or needs an updated quote."
+        image={{
+          src: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80',
+          alt: 'Saving and updating historical solar proposal records',
+        }}
+      >
+        <div id="proposal-history" className="grid gap-10 lg:grid-cols-2">
+          <dl className="divide-y divide-[#203a30]/10">
+            {PROPOSAL_HISTORY_ACTIONS.map((action) => <div key={action.title} className="py-4"><dt className="text-[14px] font-bold text-[#203a30]">{action.title}</dt><dd className="mt-1 text-[13px] leading-[1.8] text-[#606b62]">{action.desc}</dd></div>)}
+          </dl>
+          <div className="border-l-2 border-[#8b6744] bg-[#f0ede6] px-5 py-4">
+            <h4 className="mb-2 text-[14px] font-bold text-[#203a30]">Keep versions clear</h4>
+            <p className="text-[13px] leading-[1.8] text-[#606b62]">Revisions are added as new records instead of overwriting the earlier proposal. A customer can ask to change the system size, price or equipment, and the original remains available for comparison. Deleting a history record is permanent, though its PDF file stays on the computer.</p>
+          </div>
+        </div>
+      </GuideSection>
+
+      <GuideSection
+        number="07"
+        title="Set up the company profile once"
+        intro="Save company details once and reuse them across proposal documents. This keeps branding and contact information consistent."
+        image={{
+          src: 'https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=1200&q=80',
+          alt: 'Company profile and branding for solar proposal templates',
+        }}
+      >
+        <div id="proposal-company" className="grid gap-x-10 lg:grid-cols-2">
+          {COMPANY_PROFILE_FIELDS.map(([title, desc]) => <div key={title} className="border-b border-[#203a30]/10 py-4"><h4 className="text-[13px] font-bold text-[#203a30]">{title}</h4><p className="mt-1 text-[13px] leading-[1.7] text-[#606b62]">{desc}</p></div>)}
+        </div>
+        <p className="mt-5 text-[13px] leading-[1.8] text-[#606b62]">The same company profile is also used by CRM for customer IDs and by Tracker for delivery challan PDFs.</p>
+      </GuideSection>
+
+      <GuideSection
+        number="08"
+        title="Prepare documents after the sale"
+        intro="Create four Word documents from the selected proposal. Customer and system details carry over, so you do not have to enter them again."
+        image={{
+          src: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80',
+          alt: 'Final project handover and paperwork for a solar installation',
+        }}
+      >
+        <div id="proposal-handover" className="grid gap-x-10 lg:grid-cols-2">
+          {PROPOSAL_DOCUMENTS.map((document) => <article key={document.title} className="border-b border-[#203a30]/10 py-5"><h4 className="text-[14px] font-bold text-[#203a30]">{document.title}</h4><p className="mt-2 text-[13px] leading-[1.8] text-[#606b62]">{document.desc}</p></article>)}
+        </div>
+      </GuideSection>
+
+      <GuideSection
+        number="09"
+        title="Continue the customer journey"
+        intro="The proposal connects the first quote to installation, paperwork and customer records."
+        image={{
+          src: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80',
+          alt: 'Solar project journey from proposal to installation and ongoing customer care',
+        }}
+      >
+        <ol className="grid gap-0 md:grid-cols-2 xl:grid-cols-3">
+          {[
+            ['1. Create a proposal', 'Enter customer and equipment details, review the estimate and create the PDF.'],
+            ['2. Customer accepts', 'Use Start Installation to open Tracker for the selected proposal.'],
+            ['3. Track the work', 'Tracker records deliveries, payments and installation milestones.'],
+            ['4. Complete the installation', 'Prepare the Work Completion Certificate for the customer to review and sign.'],
+            ['5. Commission the system', 'Prepare the Commissioning Report when the system has been tested and started.'],
+            ['6. Add the customer to CRM', 'Convert the proposal into a customer record. An ID may look like SSE-5KW-BHO-001.'],
+          ].map(([title, desc]) => <li key={title} className="border-t border-[#203a30]/12 py-5 pr-6"><h4 className="text-[13px] font-bold text-[#203a30]">{title}</h4><p className="mt-2 text-[13px] leading-[1.8] text-[#606b62]">{desc}</p></li>)}
+        </ol>
+      </GuideSection>
+    </section>
+  );
+}
 
 export default function WorkflowPage() {
   const [activeIdx, setActiveIdx] = useState(0);
@@ -167,13 +571,7 @@ export default function WorkflowPage() {
                 ))}
               </div>
 
-              {/* Metric badge */}
-              <div className="inline-flex items-center gap-4 p-5 rounded-2xl bg-[#244337] text-white">
-                <div>
-                  <div className="font-serif text-4xl leading-none text-white">{mod.metric}</div>
-                  <div className="text-sm font-semibold text-white/70">{mod.metricLabel}</div>
-                </div>
-              </div>
+    
             </div>
 
             {/* Right — Video */}
@@ -218,6 +616,8 @@ export default function WorkflowPage() {
 
           </div>
         </div>
+
+        {activeIdx === 0 && <ProposalGuide />}
       </main>
 
       <Footer />

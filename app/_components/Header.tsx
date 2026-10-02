@@ -65,9 +65,10 @@ export default function Header() {
           <div className="flex items-center gap-3">
             <Link
               href="/contact"
-              className="hidden sm:inline-flex items-center gap-2 h-10 px-5 rounded-full text-[13px] font-bold bg-[#244337] text-white hover:bg-[#315844] transition-colors"
+              className="hidden sm:inline-flex items-center gap-2 h-10 px-5 rounded-full text-[13px] font-bold bg-[#244337] text-[#ffffff] hover:bg-[#315844] transition-colors"
+              style={{ color: '#fff' }}
             >
-              Talk to our team <ArrowUpRight className="w-3.5 h-3.5" />
+              Book demo <ArrowUpRight className="w-3.5 h-3.5" />
             </Link>
             <button
               className="lg:hidden w-10 h-10 rounded-full border border-[#203a30]/15 bg-white text-[#244337] flex items-center justify-center hover:bg-[#e9ebe4] transition-colors"

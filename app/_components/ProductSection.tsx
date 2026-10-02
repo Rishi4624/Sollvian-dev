@@ -7,32 +7,32 @@ const PRODUCTS = [
   {
     num: '01', title: 'Proposal & ROI',
     summary: 'Tailored proposals with precise financial modeling.',
-    description: 'We gather site data, buyer profiles, and irradiance models to generate proposals specific enough to build from. Every document is backed by real financial analysis, not templates.',
-    icon: FileText, features: ['Site Assessment & Shading', 'Financial ROI Modeling', 'Bespoke Document Generation'], metric: '99.4% Forecast Accuracy',
+    description: 'The Proposal Maker takes customer info + site location + panel/inverter selection → runs solar engineering math + climate data → generates a branded multi-page PDF proposal with cost breakdown, ROI, and 25-year savings and saves it all in SQLite for later tracking.',
+    icon: FileText, features: ['Solar estimates based on NASA climate data and your selected panels', 'Automatic GST and return calculations with 25-year savings estimates', 'View every proposal and track its revisions'],
   },
   {
     num: '02', title: 'Installation Tracking',
     summary: 'Real-time timelines for every active job site.',
     description: 'Crews, sites, and blockers all sit on one living timeline. A slip is visible the morning it happens — not the week the customer calls asking what went wrong.',
-    icon: Activity, features: ['Live Milestone Timeline', 'Automated Blocker Alerts', 'Field Crew Dispatch'], metric: '35% Faster Completion',
+    icon: Activity, features: ['Live Milestone Timeline', 'Automated Blocker Alerts', 'Field Crew Dispatch'],
   },
   {
     num: '03', title: 'Structure Design',
     summary: 'Engineering-grade structural plans, automatically.',
     description: 'Each site gets a structure built for its specific ground, load, and install plan. Wind, snow, and seismic stress tested against local codes before a single bolt is ordered.',
-    icon: Layers, features: ['Structural Load Simulation', 'BOM Auto-Generation', 'Ground & Roof Compatibility'], metric: '100% Engineering Compliance',
+    icon: Layers, features: ['Structural Load Simulation', 'BOM Auto-Generation', 'Ground & Roof Compatibility'],
   },
   {
     num: '04', title: 'CRM Integration',
     summary: "A pipeline that actually tells you what's happening.",
     description: 'Notes, next actions, and every promise live together. The account view is what a person would say if you asked how the work is going — not a wall of spreadsheet rows.',
-    icon: Users, features: ['Unified Account Timeline', 'Next-Action Reminders', 'Pipeline Health Analytics'], metric: '4.8x Pipeline Visibility',
+    icon: Users, features: ['Unified Account Timeline', 'Next-Action Reminders', 'Pipeline Health Analytics'],
   },
   {
     num: '05', title: 'Customer 360°',
     summary: 'Every contract, ticket, and install in one view.',
     description: 'Contracts, tickets, installs, and usage fold into one complete picture so your support team never starts from a blank page.',
-    icon: ShieldCheck, features: ['Lifecycle Panoramic View', 'Proactive O&M Triggers', 'Client Portal Integration'], metric: '99.8% Client Retention',
+    icon: ShieldCheck, features: ['Lifecycle Panoramic View', 'Proactive O&M Triggers', 'Client Portal Integration'],
   },
 ];
 
@@ -113,9 +113,6 @@ export default function ProductSection() {
                           <p className="mb-5 text-[14px] leading-[1.8] text-[#687269]">
                             {p.description}
                           </p>
-                          <div className="inline-flex items-center gap-2 border-l-2 border-[#8b6744] pl-3">
-                            <span className="text-[12px] font-bold text-[#66523e]">{p.metric}</span>
-                          </div>
                         </div>
 
                         <div className="border-l border-[#203a30]/10 pl-5">

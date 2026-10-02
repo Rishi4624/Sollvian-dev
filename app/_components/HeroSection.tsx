@@ -46,7 +46,7 @@ export default function HeroSection({ onDownload }: HeroSectionProps) {
           </h1>
 
           <p className="mb-8 max-w-[540px] text-[16px] leading-[1.8] text-[#606b62] md:text-[17px]">
-            One connected platform for solar proposals, project delivery, engineering, and customer relationships. From first conversation to final handoff.
+            Sollvian Suite is an all-in-one solar business management platform built by Sollvian AI Tech Pvt Ltd. It is designed for solar installation companies to manage their entire business workflow from creating a customer proposal, tracking installation, designing mounting structures, all the way to post-installation CRM support.
           </p>
 
           <ul className="mb-9 grid gap-3 sm:grid-cols-2">
@@ -60,8 +60,9 @@ export default function HeroSection({ onDownload }: HeroSectionProps) {
 
           <div className="flex flex-wrap items-center gap-3">
             <Link
-              href="#product"
-              className="group inline-flex h-12 items-center gap-3 rounded-full bg-[#244337] px-6 text-[13px] font-bold text-white transition-colors hover:bg-[#315844]"
+              href="/workflow"
+              className="group inline-flex h-12 items-center gap-3 rounded-full bg-[#244337] px-6 text-[13px] font-bold text-[#ffffff] transition-colors hover:bg-[#315844]"
+              style={{ color: '#fff' }}
             >
               Explore the platform
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -81,7 +82,7 @@ export default function HeroSection({ onDownload }: HeroSectionProps) {
           </div>
         </div>
 
-        <div className="relative mx-auto w-full max-w-[680px] animate-fade-up lg:pl-5">
+        <div className="relative mx-auto w-full max-w-[680px] -translate-y-40 animate-fade-up lg:pl-5">
           <div className="absolute -left-3 top-12 z-10 hidden w-[142px] border border-[#244337]/10 bg-[#f7f7f2] p-4 shadow-[0_12px_40px_-28px_rgba(31,58,48,0.5)] sm:block">
             <span className="block text-[9px] font-bold uppercase tracking-[0.14em] text-[#8b6744]">Built for solar</span>
             <span className="mt-2 block font-serif text-[17px] leading-tight text-[#244337]">From lead to live site</span>
@@ -93,7 +94,7 @@ export default function HeroSection({ onDownload }: HeroSectionProps) {
               <span className="h-2 w-2 rounded-full bg-[#829b78]" />
               <span className="ml-2 flex-1 truncate rounded-sm bg-[#f3f4ef] px-3 py-1 text-center font-mono text-[9px] text-[#879087]">sollvian.com / workspace</span>
             </div>
-            <div className="relative aspect-[1.28] overflow-hidden bg-[#e8ece3]">
+            <div className="relative aspect-video overflow-hidden bg-[#e8ece3]">
               {!isVideoReady && (
                 <div className="absolute inset-0 flex items-center justify-center bg-[#e8ece3]">
                   <LoadingIndicator />
@@ -101,9 +102,9 @@ export default function HeroSection({ onDownload }: HeroSectionProps) {
               )}
               <video
                 ref={videoRef}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-contain"
                 src={demoVideo}
-                playsInline autoPlay muted loop preload="metadata"
+                playsInline autoPlay controls loop preload="metadata"
                 onCanPlay={() => setIsVideoReady(true)}
                 style={{ opacity: isVideoReady ? 1 : 0, transition: 'opacity 1.2s ease' }}
               />
