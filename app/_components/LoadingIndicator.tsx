@@ -15,7 +15,7 @@ export default function LoadingIndicator({ className = "" }: LoadingIndicatorPro
           className="object-contain"
         />
       </div>
-      <p className="text-white text-sm font-semibold animate-pulse">
+      <p className="text-[#526456] text-sm font-semibold animate-pulse">
         Loading...
       </p>
     </div>

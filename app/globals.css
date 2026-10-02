@@ -1,20 +1,22 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────────────────── */
-/* Design tokens — exact match to styles.css                  */
+/* Shared palette */
 /* ─────────────────────────────────────────────────────────── */
 :root {
-  --bg:   #050d1b;
-  --ink:  #e8eef7;
-  --muted: #93a4bf;
-  --line: rgb(255 255 255 / 8%);
-  --cyan: #22d3ee;
-  --card: #0a1730;
+  --bg: #f7f7f2;
+  --ink: #203a30;
+  --muted: #6b756d;
+  --line: rgba(32, 58, 48, 0.12);
+  --accent: #8b6744;
+  --card: #fffefa;
 }
 
 /* ─── Reset ──────────────────────────────────────────────── */
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); }
+section[id] { scroll-margin-top: 5rem; }
 
 
 a { color: inherit; }
@@ -49,4 +51,19 @@ button, input, select, textarea { font: inherit; }
 .animate-marquee-ltr {
   animation: marquee-ltr 40s linear infinite;
   width: max-content;
-}
+}
+
+@keyframes fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

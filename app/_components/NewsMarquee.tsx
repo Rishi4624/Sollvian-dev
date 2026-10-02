@@ -41,7 +41,7 @@ export default function NewsMarquee() {
   const marqueeItems = [...articles, ...articles];
 
   return (
-    <div className="w-full border-y border-white/5 bg-[#020617]/50 backdrop-blur-sm overflow-hidden py-3">
+    <div className="w-full border-y border-black/5 bg-[#f0ebe1]/50 backdrop-blur-sm overflow-hidden py-3">
       <div className="flex w-[200%] animate-marquee-ltr hover:[animation-play-state:paused]">
         {marqueeItems.map((article, idx) => (
           <a
@@ -49,9 +49,9 @@ export default function NewsMarquee() {
             href={article.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center flex-none w-1/2 md:w-auto md:px-8 border-r border-white/10 last:border-0 no-underline text-slate-300 hover:text-cyan-300 transition-colors group"
+            className="flex items-center flex-none w-1/2 md:w-auto md:px-8 border-r border-black/10 last:border-0 no-underline text-[#2c3327] hover:text-[#6b705c] transition-colors group"
           >
-            <span className="text-xs font-semibold text-cyan-500 mr-3 uppercase tracking-wider">
+            <span className="text-xs font-semibold text-[#a5a58d] mr-3 uppercase tracking-wider">
               {article.source.name}
             </span>
             <span className="text-sm font-medium whitespace-nowrap truncate max-w-[300px] lg:max-w-[400px]">

@@ -1,148 +1,123 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { ArrowUpRight } from 'lucide-react';
 
 interface Article {
-  title: string;
-  description: string;
-  content: string;
-  url: string;
-  image: string;
-  publishedAt: string;
-  source: {
-    name: string;
-    url: string;
-  };
+  title: string; description: string; url: string; image: string;
+  publishedAt: string; source: { name: string; url: string };
 }
 
 export default function NewsSection() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`/api/solar-news?page=${page}&max=9`);
-        
-        if (!response.ok) {
-          throw new Error('Failed to load news');
-        }
-
-        const data = await response.json();
-        if (data.articles) {
-          setArticles(data.articles);
-          // GNews returns up to the max requested. If less, we are at the end.
-          setHasMore(data.articles.length === 9); 
-        } else if (data.error) {
-          throw new Error(typeof data.error === 'string' ? data.error : 'API Error');
-        }
-      } catch (err: any) {
-        setError(err.message || 'Something went wrong while fetching news');
-      } finally {
-        setIsLoading(false);
-      }
+        const res = await fetch('/api/solar-news?page=1&max=5');
+        if (!res.ok) throw new Error('Failed to load news');
+        const data = await res.json();
+        if (data.articles) setArticles(data.articles.slice(0, 5));
+        else if (data.error) throw new Error(data.error);
+      } catch (error: unknown) {
+        setError(error instanceof Error ? error.message : 'Failed to load news');
+      } finally { setIsLoading(false); }
     };
-
     fetchNews();
-  }, [page]);
+  }, []);
+
+  useEffect(() => {
+    if (!articles.length || isLoading) return;
+    const interval = setInterval(() => {
+      if (scrollRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+        if (scrollLeft + clientWidth >= scrollWidth - 10) {
+          scrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          scrollRef.current.scrollBy({ left: 340, behavior: 'smooth' });
+        }
+      }
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [articles, isLoading]);
 
   return (
-    <section className="relative overflow-hidden py-20 bg-transparent scroll-mt-24" id="news">
-      <div className="relative z-10 w-[min(72rem,calc(100%-2rem))] mx-auto">
-        <div className="mb-12 text-center lg:text-left">
-          <p className="m-0 text-[12px] font-bold tracking-[0.22em] uppercase text-cyan-300/90">Industry News</p>
-          <h2 className="mt-3 text-[clamp(1.75rem,4vw,2.25rem)] tracking-[-0.03em] text-[#e8eef7] leading-[1.2]">
-            Latest in Solar Energy
-          </h2>
-          <p className="mt-4 max-w-2xl text-slate-300 leading-[1.7] mx-auto lg:mx-0">
-            Stay updated with the newest trends, technology, and insights from the worldwide solar industry.
+    <section className="border-t border-[#203a30]/10 bg-[#eef0e9] py-24 md:py-32" id="news">
+      <div className="mx-auto w-[min(82rem,calc(100%-2.5rem))]">
+
+        {/* Header */}
+        <div className="mb-12 flex flex-col justify-between gap-6 md:mb-14 md:flex-row md:items-end">
+          <div>
+            <p className="mb-5 text-[11px] font-bold uppercase tracking-[0.16em] text-[#8b6744]">Industry notes</p>
+            <h2 className="font-serif text-[clamp(2.6rem,4.5vw,4rem)] leading-[1.02] text-[#203a30]">
+              A changing industry.<br />A clearer view.
+            </h2>
+          </div>
+          <p className="max-w-sm text-[14px] leading-7 text-[#657066] md:text-right">
+            The latest developments from the global solar energy sector, refreshed daily.
           </p>
         </div>
 
-        {isLoading && articles.length === 0 && (
-          <div className="flex justify-center items-center min-h-[300px]">
-            <div className="w-8 h-8 rounded-full border-2 border-cyan-400 border-t-transparent animate-spin" />
+        {isLoading && (
+          <div className="flex items-center justify-center h-64">
+            <div className="h-9 w-9 rounded-full border-[3px] border-[#829578] border-t-transparent animate-spin" />
           </div>
         )}
 
+        {/* Error — red on dark → ✅ */}
         {error && !isLoading && (
-          <div className="p-6 bg-rose-400/10 border border-rose-400/30 rounded-2xl text-center">
-            <p className="text-rose-200">{error}</p>
-          </div>
-        )}
-
-        {!isLoading && !error && articles.length === 0 && (
-          <div className="p-6 bg-white/5 border border-white/10 rounded-2xl text-center">
-            <p className="text-slate-300">No news articles found at this time.</p>
-          </div>
+          <p className="py-8 text-center font-medium text-[#a14f42]">{error}</p>
         )}
 
         {!error && articles.length > 0 && (
-          <>
-            <div className={`grid gap-6 md:grid-cols-2 lg:grid-cols-3 transition-opacity duration-300 ${isLoading ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}>
-              {articles.map((article, idx) => (
-                <a 
-                  key={idx}
-                  href={article.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex flex-col bg-[#0a1730] border border-white/10 rounded-2xl overflow-hidden hover:border-cyan-400/50 transition-colors duration-300 no-underline"
-                >
-                  {article.image && (
-                    <div className="h-48 overflow-hidden bg-white/5 relative">
-                      <img 
-                        src={article.image} 
-                        alt={article.title} 
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </div>
-                  )}
-                  <div className="p-6 flex flex-col flex-grow">
-                    <div className="flex justify-between items-center mb-3">
-                      <span className="text-xs font-semibold text-cyan-300 uppercase tracking-wider">
-                        {article.source.name}
-                      </span>
-                      <span className="text-xs text-slate-400">
-                        {new Date(article.publishedAt).toLocaleDateString()}
-                      </span>
-                    </div>
-                    <h3 className="text-lg font-medium text-[#e8eef7] mb-3 line-clamp-2 group-hover:text-cyan-300 transition-colors">
-                      {article.title}
-                    </h3>
-                    <p className="text-sm text-slate-400 leading-relaxed line-clamp-3 mb-0 flex-grow">
-                      {article.description}
-                    </p>
+          <div
+            ref={scrollRef}
+            className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+          >
+            {articles.map((a, i) => (
+              <a
+                key={i}
+                href={a.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex w-[min(82vw,340px)] shrink-0 snap-start flex-col overflow-hidden border border-[#203a30]/10 bg-[#fffefa] transition-all duration-300 hover:-translate-y-1 hover:border-[#829578]/60 hover:shadow-[0_18px_45px_-32px_rgba(31,58,48,0.55)]"
+              >
+                {a.image && (
+                  <div className="relative h-44 overflow-hidden bg-[#dfe5d9]">
+                    <img
+                      src={a.image}
+                      alt={a.title}
+                      className="h-full w-full object-cover transition-all duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#203a30]/30 to-transparent" />
                   </div>
-                </a>
-              ))}
-            </div>
-
-            <div className="flex justify-center items-center gap-4 mt-12">
-              <button
-                onClick={() => setPage(p => Math.max(1, p - 1))}
-                disabled={page === 1 || isLoading}
-                className="px-6 py-2 rounded-full text-sm font-medium border border-cyan-400/30 text-cyan-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-cyan-400/10 transition-colors min-w-[100px] flex justify-center"
-              >
-                Previous
-              </button>
-              <span className="text-slate-400 text-sm min-w-[80px] text-center">
-                {isLoading ? (
-                  <span className="inline-block w-4 h-4 rounded-full border-2 border-slate-400 border-t-transparent animate-spin align-middle" />
-                ) : `Page ${page}`}
-              </span>
-              <button
-                onClick={() => setPage(p => p + 1)}
-                disabled={!hasMore || isLoading}
-                className="px-6 py-2 rounded-full text-sm font-medium border border-cyan-400/30 text-cyan-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-cyan-400/10 transition-colors min-w-[100px] flex justify-center"
-              >
-                Next
-              </button>
-            </div>
-          </>
+                )}
+                <div className="flex flex-1 flex-col p-5 sm:p-6">
+                  <div className="mb-3 flex items-center justify-between gap-3">
+                    <span className="truncate text-[10px] font-bold uppercase tracking-[0.12em] text-[#8b6744]">
+                      {a.source.name}
+                    </span>
+                    <span className="shrink-0 text-[11px] font-medium text-[#92998f]">
+                      {new Date(a.publishedAt).toLocaleDateString()}
+                    </span>
+                  </div>
+                  <h3 className="mb-3 line-clamp-2 text-[15px] font-bold leading-snug text-[#2c4437] transition-colors group-hover:text-[#8b6744]">
+                    {a.title}
+                  </h3>
+                  <p className="line-clamp-3 flex-1 text-[13px] leading-relaxed text-[#747d74]">
+                    {a.description}
+                  </p>
+                  <div className="mt-5 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-[#8b6744] opacity-0 transition-opacity group-hover:opacity-100">
+                    Read Article <ArrowUpRight className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
         )}
       </div>
     </section>

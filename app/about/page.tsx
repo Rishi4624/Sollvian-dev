@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Header from '@/app/_components/Header';
 import Footer from '@/app/_components/Footer';
 import { Target, Lightbulb, ShieldCheck, Zap } from 'lucide-react';
@@ -31,10 +32,12 @@ export default function AboutPage() {
           <div className="max-w-[72rem] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="relative">
               <div className="aspect-square max-w-md mx-auto rounded-3xl overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(34,211,238,0.1)] relative group">
-                <img 
-                  src="https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=1000&auto=format&fit=crop" 
-                  alt="Solar panels at sunset" 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                <Image
+                  src="https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=1000&auto=format&fit=crop"
+                  alt="Solar panels at sunset"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 36rem"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent opacity-80" />
               </div>
@@ -79,7 +82,7 @@ export default function AboutPage() {
                 </div>
                 <h3 className="text-xl font-medium text-[#e8eef7] mb-3">Precision & Accuracy</h3>
                 <p className="text-slate-400 leading-relaxed text-sm">
-                  Whether it's ROI modeling or structural load testing, we know our math has to survive the real world. We engineer our tools for flawless precision.
+                  Whether it&apos;s ROI modeling or structural load testing, we know our math has to survive the real world. We engineer our tools for flawless precision.
                 </p>
               </div>
 
@@ -90,7 +93,7 @@ export default function AboutPage() {
                 </div>
                 <h3 className="text-xl font-medium text-[#e8eef7] mb-3">Intelligent Automation</h3>
                 <p className="text-slate-400 leading-relaxed text-sm">
-                  Software shouldn't just record data; it should work for you. We leverage AI to automate blockers, dispatch crews, and predict yields effortlessly.
+                  Software shouldn&apos;t just record data; it should work for you. We leverage AI to automate blockers, dispatch crews, and predict yields effortlessly.
                 </p>
               </div>
 

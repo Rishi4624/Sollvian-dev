@@ -1,73 +1,76 @@
+'use client';
+
 import Link from 'next/link';
+import { Mail, MapPin } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/5 bg-[#020617] pt-16 pb-8 text-slate-300">
-      <div className="w-[min(72rem,calc(100%-2rem))] mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
-          {/* Product */}
-          <div className="flex flex-col gap-4">
-            <h3 className="text-white font-bold text-lg mb-2">Product</h3>
-            <Link href="/lead-management" className="hover:text-cyan-400 transition-colors">Lead Management</Link>
-            <Link href="/sales-design" className="hover:text-cyan-400 transition-colors">Sales Design</Link>
-            <Link href="/design-studio" className="hover:text-cyan-400 transition-colors">Design Studio</Link>
+    <footer className="border-t border-[#203a30]/10 bg-[#f7f7f2] text-[#717a70]">
+      <div className="mx-auto w-[min(82rem,calc(100%-2.5rem))] py-14 md:py-16">
+
+        <div className="mb-14 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
+
+          {/* Brand */}
+          <div>
+            <Link href="/home" className="mb-5 flex items-center gap-3 no-underline">
+              <div className="grid h-10 w-10 place-items-center rounded-full bg-[#244337] font-serif text-lg text-[#f5f2e9]">S</div>
+              <div>
+                <div className="text-[15px] font-bold leading-none text-[#203a30]">Sollvian</div>
+                <div className="mt-1 text-[9px] font-bold uppercase tracking-[0.16em] text-[#8b6744]">AI Technologies</div>
+              </div>
+            </Link>
+            <p className="text-sm leading-relaxed">
+              Connected tools for the people building a brighter energy future.
+            </p>
           </div>
 
-          {/* Solutions */}
-          <div className="flex flex-col gap-4">
-            <h3 className="text-white font-bold text-lg mb-2">Solutions</h3>
-            <Link href="/solar-installers" className="hover:text-cyan-400 transition-colors">Solar Installers</Link>
-            <Link href="/sales-professionals" className="hover:text-cyan-400 transition-colors">Sales Professionals</Link>
-            <Link href="/channel-managers-oems" className="hover:text-cyan-400 transition-colors">Channel Managers & OEMs</Link>
-            <Link href="/industry-residential" className="hover:text-cyan-400 transition-colors">Industry Residential</Link>
-            <Link href="/industry-commercial" className="hover:text-cyan-400 transition-colors">Industry Commercial</Link>
-          </div>
-
-          {/* Resources */}
-          <div className="flex flex-col gap-4">
-            <h3 className="text-white font-bold text-lg mb-2">Resources</h3>
-            <Link href="/blog" className="hover:text-cyan-400 transition-colors">Blog</Link>
-            <Link href="/events" className="hover:text-cyan-400 transition-colors">Events</Link>
-            <Link href="/case-studies" className="hover:text-cyan-400 transition-colors">Case Studies</Link>
+          {/* Platform */}
+          <div>
+            <h4 className="mb-5 text-[12px] font-bold uppercase tracking-[0.12em] text-[#2c4437]">Platform</h4>
+            <ul className="space-y-3">
+              {['Proposal & ROI', 'Installation Tracking', 'Structure Design', 'CRM Integration', 'Customer 360°'].map(l => (
+                <li key={l}><Link href="#product" className="text-[13px] transition-colors hover:text-[#8b6744]">{l}</Link></li>
+              ))}
+            </ul>
           </div>
 
           {/* Company */}
-          <div className="flex flex-col gap-4">
-            <h3 className="text-white font-bold text-lg mb-2">Company</h3>
-            <Link href="/about" className="hover:text-cyan-400 transition-colors">About</Link>
-            <Link href="/privacy-policy" className="hover:text-cyan-400 transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-cyan-400 transition-colors">Terms</Link>
-            <Link href="/support-feedback" className="hover:text-cyan-400 transition-colors">Support Feedback</Link>
+          <div>
+            <h4 className="mb-5 text-[12px] font-bold uppercase tracking-[0.12em] text-[#2c4437]">Company</h4>
+            <ul className="space-y-3">
+              {[['About Us', '#team'], ['News', '#news'], ['Contact', '#contact'], ['Careers', '#']].map(([l, h]) => (
+                <li key={l}><Link href={h} className="text-[13px] transition-colors hover:text-[#8b6744]">{l}</Link></li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h4 className="mb-5 text-[12px] font-bold uppercase tracking-[0.12em] text-[#2c4437]">Contact</h4>
+            <div className="mb-6 space-y-4">
+              <div className="flex items-center gap-3">
+                <Mail className="h-4 w-4 shrink-0 text-[#8b6744]" />
+                <span className="text-[13px]">hello@sollvian.com</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <MapPin className="h-4 w-4 shrink-0 text-[#8b6744]" />
+                <span className="text-[13px]">Bhopal, M.P, India</span>
+              </div>
+            </div>
+            <div className="flex gap-4 text-[12px]">
+              <a href="#" className="transition-colors hover:text-[#8b6744]">Twitter</a>
+              <a href="#" className="transition-colors hover:text-[#8b6744]">LinkedIn</a>
+              <a href="#" className="transition-colors hover:text-[#8b6744]">GitHub</a>
+            </div>
           </div>
         </div>
 
-        {/* Bottom Section */}
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8 pt-8 border-t border-white/10">
-          <div className="flex flex-col gap-6">
-            {/* Logo */}
-            <div className="flex items-center gap-3">
-              <img src="/favicon.ico" alt="Sollvian Logo" width="40" height="40" className="object-contain rounded-md" />
-              <span className="flex flex-col leading-none">
-                <span className="text-[20px] font-semibold tracking-[-0.02em] text-white">Sollvian</span>
-                <span className="mt-[2px] text-[12px] font-semibold tracking-[0.16em] uppercase text-cyan-400/90">AI Tech</span>
-              </span>
-            </div>
-
-            {/* Addresses */}
-            <div className="flex flex-col gap-3 text-sm">
-              <div className="flex items-start gap-3">
-                <span className="text-xl leading-none" role="img" aria-label="India Flag">🇮🇳</span>
-                <span>Sollvian AI tech Pvt ltd<br />Plot no 142, 4th floor , MP Nagar zone 2 462011, Bhopal M.P</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Contact Us */}
-          <div className="flex flex-col items-start lg:items-center gap-4 bg-white/5 p-6 rounded-2xl border border-white/10">
-            <span className="text-white font-medium">Have something in mind?</span>
-            <Link href="#contact" className="inline-flex items-center justify-center h-12 px-8 rounded-full font-bold cursor-pointer bg-cyan-400 text-[#041018] hover:bg-cyan-300 transition-colors no-underline">
-              Contact Us
-            </Link>
+        {/* Bottom */}
+        <div className="flex flex-col items-start justify-between gap-4 border-t border-[#203a30]/10 pt-6 text-[12px] md:flex-row md:items-center">
+          <p>© {new Date().getFullYear()} Sollvian AI Tech. All rights reserved.</p>
+          <div className="flex gap-6">
+            <Link href="/privacy-policy" className="transition-colors hover:text-[#8b6744]">Privacy Policy</Link>
+            <Link href="/terms" className="transition-colors hover:text-[#8b6744]">Terms of Service</Link>
           </div>
         </div>
       </div>
