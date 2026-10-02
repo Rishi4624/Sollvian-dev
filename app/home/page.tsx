@@ -23,7 +23,7 @@ export default function Page() {
         <HeroSection onDownload={() => setModalOpen(true)} />
         <ProductSection />
         <NewsSection />
-        <TeamSection />
+        {/* <TeamSection /> */}
         <ContactSection />
       </main>
       <Footer />
