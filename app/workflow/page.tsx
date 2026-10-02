@@ -246,7 +246,7 @@ function ProposalGuide() {
         title="What the module does"
         intro="The proposal tool takes you from the first customer detail to a branded PDF that can be reviewed, printed, emailed or signed. It also keeps saved proposals available for follow-up."
         image={{
-          src: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=80',
+          src: 'https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&w=1200&q=80',
           alt: 'Solar panels and a proposal workflow overview',
         }}
       >
@@ -278,7 +278,7 @@ function ProposalGuide() {
         title="Details to enter"
         intro="Enter the information you have. Monthly bill details are optional the tool can estimate them when they are not available."
         image={{
-          src: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=80',
+          src: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80',
           alt: 'Customer information form and solar project details',
         }}
       >
@@ -305,7 +305,7 @@ function ProposalGuide() {
         title="What the module calculates"
         intro="After you submit the form the calculation engine prepares the system cost and savings figures for the proposal."
         image={{
-          src: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
+          src: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
           alt: 'Solar calculations and energy savings dashboard',
         }}
       >
@@ -336,7 +336,7 @@ function ProposalGuide() {
         title="Create and review a proposal"
         intro="Choose Submit & Review to check the form calculate the results and prepare the customer PDF."
         image={{
-          src: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80',
+          src: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80',
           alt: 'Reviewing and finalizing a solar proposal document',
         }}
       >
@@ -381,7 +381,7 @@ function ProposalGuide() {
         title="Choose a PDF format"
         intro="Use the full proposal for a detailed presentation or the single-page version for a quick quote."
         image={{
-          src: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=80',
+          src: 'https://images.unsplash.com/photo-1586281380349-6327a109a2e8?auto=format&fit=crop&w=1200&q=80',
           alt: 'Proposal PDF formats and printed solar documents',
         }}
       >
@@ -412,7 +412,7 @@ function ProposalGuide() {
         title="Find and update saved proposals"
         intro="The history list keeps saved proposals available when a customer asks a question or needs an updated quote."
         image={{
-          src: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80',
+          src: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=80',
           alt: 'Saving and updating historical solar proposal records',
         }}
       >
@@ -432,7 +432,7 @@ function ProposalGuide() {
         title="Set up the company profile once"
         intro="Save company details once and reuse them across proposal documents. This keeps branding and contact information consistent."
         image={{
-          src: 'https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=1200&q=80',
+          src: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80',
           alt: 'Company profile and branding for solar proposal templates',
         }}
       >
@@ -447,7 +447,7 @@ function ProposalGuide() {
         title="Prepare documents after the sale"
         intro="Create four Word documents from the selected proposal. Customer and system details carry over, so you do not have to enter them again."
         image={{
-          src: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80',
+          src: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80',
           alt: 'Final project handover and paperwork for a solar installation',
         }}
       >
@@ -461,7 +461,7 @@ function ProposalGuide() {
         title="Continue the customer journey"
         intro="The proposal connects the first quote to installation, paperwork and customer records."
         image={{
-          src: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80',
+          src: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1200&q=80',
           alt: 'Solar project journey from proposal to installation and ongoing customer care',
         }}
       >
@@ -476,6 +476,239 @@ function ProposalGuide() {
           ].map(([title, desc]) => <li key={title} className="border-t border-[#203a30]/12 py-5 pr-6"><h4 className="text-[13px] font-bold text-[#203a30]">{title}</h4><p className="mt-2 text-[13px] leading-[1.8] text-[#606b62]">{desc}</p></li>)}
         </ol>
       </GuideSection>
+    </section>
+  );
+}
+
+const INSTALLATION_TRACKER_GUIDE = [
+  {
+    number: '01',
+    title: 'Purpose and flow',
+    intro: 'The Installation Tracker manages the actual site execution after the proposal is accepted. It keeps payment, site work, delivery logs, documents and handover in one place.',
+    image: {
+      src: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Project management dashboard for solar installation work',
+    },
+    content: (
+      <div id="tracker-overview" className="grid gap-8 lg:grid-cols-[1fr_1fr]">
+        <div>
+          <h4 className="mb-4 text-[13px] font-bold uppercase tracking-[0.12em] text-[#435348]">What this module does</h4>
+          <dl className="divide-y divide-[#203a30]/10">
+            {[
+              ['Dashboard', 'Shows all projects, payment totals and recent work at a glance.'],
+              ['Installations', 'Tracks one customer project from advance payment to final handover.'],
+              ['Technicians', 'Assigns named teams to each site with progress updates.'],
+              ['Documents', 'Stores and opens delivery challans and compliance reports.'],
+            ].map(([label, desc]) => <div key={label} className="grid gap-1 py-3 sm:grid-cols-[8rem_1fr] sm:gap-4"><dt className="text-[13px] font-semibold text-[#203a30]">{label}</dt><dd className="text-[13px] leading-[1.7] text-[#606b62]">{desc}</dd></div>)}
+          </dl>
+        </div>
+        <div>
+          <h4 className="mb-4 text-[13px] font-bold uppercase tracking-[0.12em] text-[#435348]">Why it matters</h4>
+          <p className="text-[14px] leading-[1.8] text-[#606b62]">
+            Solar projects fail when payments, dispatches and site work are spread across notes and spreadsheets. The tracker brings each customer’s progress, invoices and material movement into one system.
+          </p>
+          <p className="mt-4 text-[14px] leading-[1.8] text-[#606b62]">
+            That means the sales team, project team and customer support team all see the same status and the same proof for every step.
+          </p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    number: '02',
+    title: 'Dashboard and customer view',
+    intro: 'The dashboard gives total project health while each customer view shows the exact payment, stage and document status for one job.',
+    image: {
+      src: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Customer installation dashboard with payment and progress data',
+    },
+    content: (
+      <div id="tracker-dashboard" className="grid gap-6 xl:grid-cols-2">
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Dashboard cards</h4>
+          <ul className="space-y-2 text-[13px] leading-[1.7] text-[#606b62]">
+            <li>• Total installations, completed jobs, in-progress work and total due values.</li>
+            <li>• Stage-wise payment progress with advance, first, second and final milestones.</li>
+            <li>• Recent installations table with customer name, total cost, paid, due and status.</li>
+          </ul>
+        </div>
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Customer preview</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">
+            Selecting a customer reveals the total cost, amount paid, due amount, project percentage, panel brand, inverter brand, site status and assigned technician.
+          </p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    number: '03',
+    title: 'Payment and project milestones',
+    intro: 'Every payment is tied to a stage so customer work and financial progress stay aligned with the actual installation flow.',
+    image: {
+      src: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Invoice and payment tracking for solar project milestones',
+    },
+    content: (
+      <div id="tracker-payments" className="grid gap-6 xl:grid-cols-2">
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Payment tracking</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">
+            Enter the amount received and the system recalculates the paid total, due amount and payment percentage. Entries stay in the payment history with date and time for proof.
+          </p>
+        </div>
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Stage gates</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">
+            Each stage unlocks only when the customer reaches the required payment threshold. This keeps the workflow honest and prevents work from getting marked complete too early.
+          </p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    number: '04',
+    title: 'Four installation stages',
+    intro: 'The core of the module is a four-stage payment workflow that covers structure, equipment, BOS and final handover.',
+    image: {
+      src: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      alt: 'Solar panel installation stages from foundation to completion',
+    },
+    content: (
+      <div id="tracker-stages" className="grid gap-6 lg:grid-cols-2">
+        {[
+          ['Advance Payment 20%', 'Structure design, dispatch, install and RCC tasks begin once the advance is received.'],
+          ['1st Installment 60%', 'Panels and inverter are dispatched, installed and recorded with proofs.'],
+          ['2nd Installment 90%', 'Electrical BOS work, wiring and earthing get tracked with photos and challans.'],
+          ['Final 100%', 'Metering, subsidy and final handover are completed before job closure.'],
+        ].map(([title, desc]) => (
+          <div key={title} className="border-t border-[#203a30]/12 pt-4">
+            <h4 className="text-[13px] font-bold text-[#203a30]">{title}</h4>
+            <p className="mt-2 text-[13px] leading-[1.7] text-[#606b62]">{desc}</p>
+          </div>
+        ))}
+      </div>
+    ),
+  },
+  {
+    number: '05',
+    title: 'Delivery challans and photo proof',
+    intro: 'Every dispatch and task is backed by delivery challans, site photos and an audit trail so the work is visible and defensible.',
+    image: {
+      src: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Delivery challan and site documentation for installation materials',
+    },
+    content: (
+      <div id="tracker-docs" className="grid gap-8 lg:grid-cols-2">
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Delivery challans</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">
+            Each dispatch creates a PDF with the customer details, item list, quantity, date and signature area. This acts as a proof of receiving material on site.
+          </p>
+        </div>
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Before and after evidence</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">
+            Before and after site photos can be uploaded for each task. A task cannot be marked complete without photo proof, reducing disputes and improving accountability.
+          </p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    number: '06',
+    title: 'Technicians, documents and inventory',
+    intro: 'The tracker also manages installation crew assignment, compliance paperwork and live stock movement for panels, inverters and BOS kits.',
+    image: {
+      src: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Technicians and inventory coordination during a solar installation project',
+    },
+    content: (
+      <div id="tracker-support" className="grid gap-8 lg:grid-cols-2">
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Technicians</h4>
+          <ul className="space-y-2 text-[13px] leading-[1.7] text-[#606b62]">
+            <li>• Add team members with skill area, city and work mode.</li>
+            <li>• Assign technicians to each customer project.</li>
+            <li>• Track work progress and notes with timestamps.</li>
+          </ul>
+        </div>
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Documents and inventory</h4>
+          <ul className="space-y-2 text-[13px] leading-[1.7] text-[#606b62]">
+            <li>• Generate Work Completion, Commissioning, SLD and BOM outputs.</li>
+            <li>• Track material stock and reduce inventory automatically on dispatch.</li>
+            <li>• Keep every customer file tied to the correct proposal and site records.</li>
+          </ul>
+        </div>
+      </div>
+    ),
+  },
+  {
+    number: '07',
+    title: 'Customer handover',
+    intro: 'The final step turns the tracked site into a live, monitored solar system with proof for the customer and compliance paperwork for the grid.',
+    image: {
+      src: 'https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Final solar site handover and customer monitoring setup',
+    },
+    content: (
+      <div id="tracker-handover" className="grid gap-6 lg:grid-cols-2">
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Handover records</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">
+            The system stores net metering, subsidy, monitoring credentials and final handover dates so the customer receives a complete and active installation history.
+          </p>
+        </div>
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Customer benefit</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">
+            The customer gets payment transparency, signed material proof, site evidence and a direct route to live generation monitoring after commissioning.
+          </p>
+        </div>
+      </div>
+    ),
+  },
+];
+
+function InstallationTrackerGuide() {
+  return (
+    <section className="mt-20 border-t-2 border-[#244337] pt-12" aria-labelledby="tracker-guide-title">
+      <div className="max-w-3xl pb-10">
+        <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.16em] text-[#8b6744]">Installation Tracker / Customer purpose</p>
+        <h2 id="tracker-guide-title" className="font-serif text-[clamp(2.2rem,4vw,3.5rem)] leading-[1.02] text-[#203a30]">From accepted proposal to live solar handover</h2>
+        <p className="mt-5 text-[15px] leading-[1.8] text-[#606b62]">
+          After a proposal is approved, the Installation Tracker becomes the operating system for the actual project. It keeps payments, dispatches, site tasks, technician work and final handover records in one place.
+        </p>
+      </div>
+
+      <nav aria-label="Installation tracker sections" className="mb-2 grid gap-x-6 gap-y-3 border-y border-[#203a30]/12 py-5 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          ['Purpose', 'tracker-overview'],
+          ['Dashboard', 'tracker-dashboard'],
+          ['Payments', 'tracker-payments'],
+          ['Stages', 'tracker-stages'],
+          ['Docs', 'tracker-docs'],
+          ['Support', 'tracker-support'],
+          ['Handover', 'tracker-handover'],
+        ].map(([label, id]) => (
+          <a key={id} href={`#${id}`} className="text-[13px] font-semibold text-[#435348] underline decoration-[#8b6744]/40 underline-offset-4 hover:text-[#244337]">
+            {label}
+          </a>
+        ))}
+      </nav>
+
+      {INSTALLATION_TRACKER_GUIDE.map((section) => (
+        <GuideSection
+          key={section.number}
+          number={section.number}
+          title={section.title}
+          intro={section.intro}
+          image={section.image}
+        >
+          {section.content}
+        </GuideSection>
+      ))}
     </section>
   );
 }
@@ -618,6 +851,7 @@ export default function WorkflowPage() {
         </div>
 
         {activeIdx === 0 && <ProposalGuide />}
+        {activeIdx === 1 && <InstallationTrackerGuide />}
       </main>
 
       <Footer />
