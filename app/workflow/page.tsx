@@ -38,37 +38,37 @@ const MODULES = [
   },
   {
     num: '03', title: 'Structure Design',
-    summary: 'Scalable solar structure design engineered for every site.',
-    detail: 'Each site gets a structure that fits the ground, the load and the install plan — not a reused drawing from the last job.',
+    summary: 'Engineered mounting designs matched to each customer, roof and local wind zone.',
+    detail: 'Link a proposal to a calculated panel layout, verify roof loading and wind safety, then save and export a structure report before fabrication begins.',
     icon: Layers,
     features: [
-      { title: 'Structural Load Simulation', desc: 'Wind load and snow load stress testing configured for local geological standards.' },
-      { title: 'Bill of Materials Automation', desc: 'Instant generation of exact fastener counts rail lengths and racking requirements.' },
-      { title: 'Ground & Rooftop Compatibility', desc: 'Seamless switching between ballasted flat roof pitched roof and ground-mount arrays.' },
+      { title: 'Proposal-linked design', desc: 'Pre-fill customer and panel details from the selected proposal.' },
+      { title: 'Wind and roof checks', desc: 'Compare wind force and structure capacity, and calculate roof point load.' },
+      { title: '3D drawing and PDF report', desc: 'Review the frame from multiple views and export a customer-linked engineering report.' },
     ],
     video: '/videos/structure_design.mp4',
   },
   {
     num: '04', title: 'CRM Integration',
-    summary: 'Stronger relationships. Better engagement. Greater growth.',
-    detail: 'Notes, next actions and the last promise live together. The account view is what a person would say if you asked how the work is going.',
+    summary: 'Manage customer records, service, complaints, maintenance and billing in one place.',
+    detail: 'Keep a searchable customer directory and a lasting history of service visits, complaint resolution, AMC schedules, invoices, payments and team activity.',
     icon: Users,
     features: [
-      { title: 'Unified Account Timeline', desc: 'All communications proposals site notes and calls ordered in a single chronological stream.' },
-      { title: 'Next-Action Reminders', desc: 'Never drop a follow-up with automated prompt triggers tied to project milestones.' },
-      { title: 'Pipeline Health Analytics', desc: 'Visual forecasting for commercial solar deals from initial lead to signed PPA.' },
+      { title: 'Customer records', desc: 'Add, update, search, import and export customer information.' },
+      { title: 'Service and complaints', desc: 'Assign technicians and preserve visit notes, costs and resolution status.' },
+      { title: 'AMC and GST billing', desc: 'Schedule maintenance visits, generate invoices and track payments.' },
     ],
     video: '/videos/CRM_demo_3.mp4',
   },
   {
     num: '05', title: 'Customer 360°',
-    summary: 'A complete view connecting contracts, tickets, and installs.',
-    detail: 'Contracts, tickets, installs and usage fold into one picture. Support does not start from a blank page.',
+    summary: 'A single customer workspace for installation, equipment and service context.',
+    detail: 'Open a CRM customer to see their plant capacity, status, panel and inverter details, installation type and the actions most often needed by the service team.',
     icon: ShieldCheck,
     features: [
-      { title: 'Lifecycle Panoramic View', desc: 'Instantly bridge historical billing live inverter production telemetry and active service tickets.' },
-      { title: 'Proactive O&M Triggers', desc: 'Automated dispatch for maintenance before generation drops below efficiency thresholds.' },
-      { title: 'Client Portal Integration', desc: 'Self-serve executive dashboards giving commercial clients real-time ESG and savings reports.' },
+      { title: 'At-a-glance metrics', desc: 'See plant capacity, customer status, panel brand and structure type together.' },
+      { title: 'Equipment linked to proposals', desc: 'Match panel and inverter information from proposal records.' },
+      { title: 'Quick customer actions', desc: 'Update status, raise a complaint or open service management from the profile.' },
     ],
     video: '/videos/customer_360_demo.mp4',
   },
@@ -713,6 +713,533 @@ function InstallationTrackerGuide() {
   );
 }
 
+type WorkflowGuideSection = {
+  number: string;
+  title: string;
+  intro: string;
+  nav: string;
+  image: { src: string; alt: string };
+  content: ReactNode;
+};
+
+function WorkflowModuleGuide({
+  eyebrow,
+  title,
+  description,
+  navLabel,
+  sections,
+}: {
+  eyebrow: string;
+  title: string;
+  description: string;
+  navLabel: string;
+  sections: WorkflowGuideSection[];
+}) {
+  return (
+    <section className="mt-20 border-t-2 border-[#244337] pt-12" aria-label={title}>
+      <div className="max-w-3xl pb-10">
+        <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.16em] text-[#8b6744]">{eyebrow}</p>
+        <h2 className="font-serif text-[clamp(2.2rem,4vw,3.5rem)] leading-[1.02] text-[#203a30]">{title}</h2>
+        <p className="mt-5 text-[15px] leading-[1.8] text-[#606b62]">{description}</p>
+      </div>
+
+      <nav aria-label={navLabel} className="mb-2 grid gap-x-6 gap-y-3 border-y border-[#203a30]/12 py-5 sm:grid-cols-2 lg:grid-cols-4">
+        {sections.map((section) => (
+          <a key={section.number} href={`#${section.nav}`} className="text-[13px] font-semibold text-[#435348] underline decoration-[#8b6744]/40 underline-offset-4 hover:text-[#244337]">
+            {section.nav}
+          </a>
+        ))}
+      </nav>
+
+      {sections.map((section) => (
+        <GuideSection
+          key={section.number}
+          number={section.number}
+          title={section.title}
+          intro={section.intro}
+          image={section.image}
+        >
+          {section.content}
+        </GuideSection>
+      ))}
+    </section>
+  );
+}
+
+const STRUCTURE_DESIGNER_SECTIONS: WorkflowGuideSection[] = [
+  {
+    number: '01',
+    title: 'Link the design to a customer',
+    intro: 'Start with a proposal-backed customer so the structure design and its engineering record stay tied to the right solar project.',
+    nav: 'Customer link',
+    image: {
+      src: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Solar panels on a rooftop for a customer-linked structure design',
+    },
+    content: (
+      <div id="structure-customer" className="grid gap-8 lg:grid-cols-2">
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Select the proposal</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">Choose a customer from the proposal-linked dropdown. When Structure Designer is opened from Installation Tracker Stage 1, the customer is preselected from the proposal reference.</p>
+        </div>
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Use the matched equipment</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">The selected proposal supplies the panel brand and wattage, reducing re-entry and helping ensure the frame is designed for the actual module.</p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    number: '02',
+    title: 'Set system and structural inputs',
+    intro: 'Panel dimensions, roof category, bracing and local wind conditions determine how the mounting frame must be engineered.',
+    nav: 'Design inputs',
+    image: {
+      src: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Solar array layout informing structure and orientation inputs',
+    },
+    content: (
+      <div id="structure-inputs" className="grid gap-8 xl:grid-cols-2">
+        {[
+          ['System and structure', ['Panel type and wattage', 'Portrait or landscape orientation', 'Low, medium or high wind zone', 'RCC, old building, industrial or ground mount roof category', 'Moment frame, X-bracing or K-bracing']],
+          ['Array geometry', ['Panel rows and columns', 'At least two supporting rafters', 'Front support height', 'Back support height', 'Panel layout and overall array area']],
+        ].map(([title, rows]) => (
+          <div key={title as string}>
+            <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">{title as string}</h4>
+            <ul className="space-y-2 text-[13px] leading-[1.7] text-[#606b62]">
+              {(rows as string[]).map((row) => <li key={row} className="border-t border-[#203a30]/10 pt-2">{row}</li>)}
+            </ul>
+          </div>
+        ))}
+        <p className="xl:col-span-2 text-[13px] leading-[1.8] text-[#606b62]">The height difference determines tilt. Layout, panel orientation and wind zone affect sun exposure, frame dimensions and the strength required for the site.</p>
+      </div>
+    ),
+  },
+  {
+    number: '03',
+    title: 'Calculate and check structural safety',
+    intro: 'Calculate combines the selected equipment, wind zone, roof type, geometry and support heights into an engineering summary.',
+    nav: 'Calculations',
+    image: {
+      src: 'https://images.unsplash.com/photo-1516937941344-00b4e0337589?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Engineering review for a solar mounting structure',
+    },
+    content: (
+      <div id="structure-calculation" className="overflow-x-auto">
+        <table className="w-full min-w-[34rem] border-collapse text-left">
+          <thead><tr className="border-b border-[#203a30]/20"><th className="py-3 pr-6 text-[11px] font-bold uppercase tracking-[0.12em] text-[#8b6744]">Output</th><th className="py-3 text-[11px] font-bold uppercase tracking-[0.12em] text-[#8b6744]">Customer value</th></tr></thead>
+          <tbody>
+            {[
+              ['System summary', 'Orientation, wind zone, layout, panel count, DC capacity and tilt angle.'],
+              ['Structure sizing', 'Front and back heights, total area and estimated steel weight.'],
+              ['Member schedule', 'Rafter, purlin and brace lengths and quantities for fabrication.'],
+              ['Wind check', 'Wind pressure and force per leg compared with capacity, marked SAFE or FAIL.'],
+            ].map(([label, text]) => <tr key={label} className="border-b border-[#203a30]/10 align-top"><th className="py-3 pr-6 text-[13px] font-semibold text-[#203a30]">{label}</th><td className="py-3 text-[13px] leading-[1.7] text-[#606b62]">{text}</td></tr>)}
+          </tbody>
+        </table>
+        <p className="mt-5 text-[13px] leading-[1.8] text-[#606b62]">A FAIL result signals that the design needs review before construction. The calculation should be confirmed by the responsible engineer before fabrication or installation.</p>
+      </div>
+    ),
+  },
+  {
+    number: '04',
+    title: 'Review the 3D drawing and panel layout',
+    intro: 'Explore the calculated structure before steel is purchased or cut, then refine the panel arrangement for the actual roof shape.',
+    nav: '3D and layout',
+    image: {
+      src: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Engineer reviewing solar structure drawings and panel layout',
+    },
+    content: (
+      <div id="structure-drawing" className="grid gap-8 lg:grid-cols-2">
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Explore three views</h4>
+          <ul className="space-y-2 text-[13px] leading-[1.7] text-[#606b62]">
+            <li>Top view shows the panel array and dimensions.</li>
+            <li>Side view shows support heights and tilt.</li>
+            <li>Isometric view shows the complete frame in 3D.</li>
+            <li>Rotate, zoom and pan to inspect the design.</li>
+          </ul>
+        </div>
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Fit irregular roofs</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">The panel layout canvas lets you add, move or remove panel rectangles, clear the layout, or auto-fill it from rows and columns. Generate the structural design from the final canvas positions to accommodate roof obstacles and unusual shapes.</p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    number: '05',
+    title: 'Confirm and save the design',
+    intro: 'A calculation becomes part of the customer record only after it is confirmed.',
+    nav: 'Save design',
+    image: {
+      src: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Project team confirming an engineered solar design',
+    },
+    content: (
+      <div id="structure-confirm" className="grid gap-8 lg:grid-cols-2">
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Confirm Design</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">Save the panel specifications, geometry, steel schedule, wind check and bracing against the selected proposal. Confirmation displays the assigned customer and makes the design retrievable after the app is closed.</p>
+        </div>
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">View Confirmed Design</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">Reload the saved design later to restore its inputs and regenerate the drawing. An unconfirmed calculation remains a working session and is not the permanent customer record.</p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    number: '06',
+    title: 'Check roof point load',
+    intro: 'Use the dead-load calculation to understand how module weight is distributed across the frame supports.',
+    nav: 'Roof load',
+    image: {
+      src: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Rooftop solar installation where panel and support loads must be checked',
+    },
+    content: (
+      <div id="structure-load" className="grid gap-6 sm:grid-cols-3">
+        {[
+          ['Module weight', 'Panel count multiplied by the weight of each module.'],
+          ['Support points', 'Rafter count multiplied by two support legs per rafter.'],
+          ['Point load per leg', 'Total module weight divided by the number of support points.'],
+        ].map(([title, text]) => <div key={title} className="border-t border-[#203a30]/12 pt-4"><h4 className="text-[13px] font-bold text-[#203a30]">{title}</h4><p className="mt-2 text-[13px] leading-[1.7] text-[#606b62]">{text}</p></div>)}
+        <p className="sm:col-span-3 text-[13px] leading-[1.8] text-[#606b62]">Use this result with the selected building category and a qualified structural review, especially for older buildings.</p>
+      </div>
+    ),
+  },
+  {
+    number: '07',
+    title: 'Export the engineering report',
+    intro: 'Export PDF creates a one-page A4 structure report after the design has been confirmed.',
+    nav: 'Export report',
+    image: {
+      src: 'https://images.unsplash.com/photo-1586281380349-6327a109a2e8?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Printed engineering report for a solar mounting structure',
+    },
+    content: (
+      <div id="structure-report" className="grid gap-8 lg:grid-cols-2">
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Included in the PDF</h4>
+          <ul className="space-y-2 text-[13px] leading-[1.7] text-[#606b62]">
+            <li>Unique SSR report reference and structural summary.</li>
+            <li>Top, side and isometric drawing views.</li>
+            <li>Roof category and member schedule.</li>
+            <li>Foundation recommendation and SAFE / FAIL wind check.</li>
+          </ul>
+        </div>
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">A shared engineering record</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">The report can be shared with the fabrication contractor or retained for project documentation and approvals where required. It records the calculated design for review; it does not replace approval by the responsible engineer or local authority.</p>
+        </div>
+      </div>
+    ),
+  },
+];
+
+const CRM_SECTIONS: WorkflowGuideSection[] = [
+  {
+    number: '01',
+    title: 'Keep customer records searchable',
+    intro: 'CRM is the working customer record for installed and incoming solar projects, from contact information to current service status.',
+    nav: 'Customer records',
+    image: {
+      src: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Customer operations team reviewing solar client records',
+    },
+    content: (
+      <div id="crm-records" className="grid gap-8 lg:grid-cols-2">
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Directory and search</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">Search by part of a customer name and open a directory row to load the customer workspace. The directory includes customer ID, name, capacity, location and status such as Active, Inactive, AMC Due or Under Service.</p>
+        </div>
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Add and maintain records</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">Add customers with name, system capacity, installation date, location, contact, address and status. Select an existing record to update its details or remove it from CRM after confirmation.</p>
+        </div>
+        <div className="lg:col-span-2 border-l-2 border-[#8b6744] bg-[#f0ede6] px-5 py-4">
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">Manual records can include customers whose original projects were created before the Proposal Maker was used. Deleting a CRM record does not remove it from the separate Proposal or Tracker database.</p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    number: '02',
+    title: 'Import and export customer lists',
+    intro: 'Move existing customer records in and out of CRM without retyping an entire spreadsheet.',
+    nav: 'Import and export',
+    image: {
+      src: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Customer data spreadsheet prepared for CRM import and export',
+    },
+    content: (
+      <div id="crm-import-export" className="grid gap-8 lg:grid-cols-2">
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Import from Excel</h4>
+          <ol className="space-y-2 text-[13px] leading-[1.7] text-[#606b62]">
+            <li>1. Choose an .xlsx or .xls file.</li>
+            <li>2. Review detected columns and the import preview.</li>
+            <li>3. Proceed and check imported, skipped, duplicate and error totals.</li>
+          </ol>
+          <p className="mt-3 text-[13px] leading-[1.8] text-[#606b62]">Column matching handles common alternatives such as Phone for Contact. Existing customers with the same name and phone are skipped as duplicates.</p>
+        </div>
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Export selected customers</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">Select one or multiple customers and export their IDs, names, capacity, installation date, location, contact, address and status to Excel for field teams or reporting.</p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    number: '03',
+    title: 'Record service visits',
+    intro: 'Build a dependable service history with the work performed, assigned technician and payment details for each visit.',
+    nav: 'Service visits',
+    image: {
+      src: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Solar service technician documenting maintenance work at a customer site',
+    },
+    content: (
+      <div id="crm-service" className="grid gap-6 xl:grid-cols-3">
+        {[
+          ['Visit details', 'Customer, service date, description of the work, technician and linked complaint when applicable.'],
+          ['Billing', 'Bill amount, whether it is paid, payment mode and a transaction or cheque reference.'],
+          ['History and export', 'Review service IDs, dates, work, bills and technicians. Export one customer or all service records to Excel.'],
+        ].map(([title, text]) => <div key={title} className="border-t border-[#203a30]/12 pt-4"><h4 className="text-[13px] font-bold text-[#203a30]">{title}</h4><p className="mt-2 text-[13px] leading-[1.7] text-[#606b62]">{text}</p></div>)}
+        <p className="xl:col-span-3 text-[13px] leading-[1.8] text-[#606b62]">A written visit history supports warranty questions, dispute resolution and decisions about annual maintenance renewal.</p>
+      </div>
+    ),
+  },
+  {
+    number: '04',
+    title: 'Raise and resolve complaints',
+    intro: 'Give every reported issue a trackable record, an owner and an expected resolution date.',
+    nav: 'Complaints',
+    image: {
+      src: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Customer support team assigning a solar service complaint',
+    },
+    content: (
+      <div id="crm-complaints" className="grid gap-8 lg:grid-cols-2">
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Create a complaint</h4>
+          <ol className="space-y-2 text-[13px] leading-[1.7] text-[#606b62]">
+            <li>1. Describe the issue, with at least three characters.</li>
+            <li>2. Assign an available technician or add a technician.</li>
+            <li>3. Set and validate an expected close date.</li>
+            <li>4. Save to create a complaint ID and Open status.</li>
+          </ol>
+        </div>
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Manage the complaint record</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">Review open complaints, edit the description, technician or expected date, and close resolved issues. Complaint history can include linked service records, be exported to Excel or formatted for printing.</p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    number: '05',
+    title: 'Schedule Annual Maintenance Contracts',
+    intro: 'Turn an AMC agreement into a planned series of service visits that can be assigned and tracked.',
+    nav: 'AMC scheduling',
+    image: {
+      src: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Solar plant scheduled for recurring annual maintenance visits',
+    },
+    content: (
+      <div id="crm-amc" className="grid gap-8 lg:grid-cols-2">
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Create the contract</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">Set the duration, contract cost, paid status, payment mode and visit frequency. CRM calculates the validity date and generates future visit dates from the schedule.</p>
+        </div>
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Run the visit calendar</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">Review scheduled visits, assign a technician and mark completed work. Export or print the calendar, and review the customer&apos;s past and current contracts in AMC history.</p>
+        </div>
+        <div className="lg:col-span-2 grid gap-3 sm:grid-cols-3">
+          {[
+            ['Monthly', 'One visit each month'],
+            ['Quarterly', 'Four visits per year'],
+            ['Yearly', 'One annual visit'],
+          ].map(([title, text]) => <div key={title} className="border-t border-[#203a30]/12 pt-3"><h4 className="text-[13px] font-bold text-[#203a30]">{title}</h4><p className="mt-1 text-[12px] leading-[1.7] text-[#606b62]">{text}</p></div>)}
+        </div>
+      </div>
+    ),
+  },
+  {
+    number: '06',
+    title: 'Create GST invoices and record payments',
+    intro: 'Prepare project, AMC or service invoices with customer, supply and tax details, then track the balance as payments arrive.',
+    nav: 'Invoices',
+    image: {
+      src: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Solar project tax invoice and payment reconciliation',
+    },
+    content: (
+      <div id="crm-invoices" className="grid gap-8 lg:grid-cols-2">
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Invoice details</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">Set invoice and due dates, project type, capacity, billing mode, supply type, place of supply, customer GSTIN, base amount, discount and additional charges. Add line items with HSN/SAC, quantity, rate and tax.</p>
+        </div>
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">PDF and payment status</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">The invoice PDF includes company and customer details, project information, line items, tax summary, notes and payment terms. Record payments by mode and reference to update the paid amount, balance and Unpaid, Partial or Paid status.</p>
+        </div>
+        <p className="lg:col-span-2 text-[13px] leading-[1.8] text-[#606b62]">Invoice history can be reviewed across customers or filtered to one customer, then opened to view or regenerate its PDF.</p>
+      </div>
+    ),
+  },
+  {
+    number: '07',
+    title: 'Keep an activity audit trail',
+    intro: 'CRM records actions with timestamps so teams can understand what changed, when it changed and which customer it affected.',
+    nav: 'Activity tracking',
+    image: {
+      src: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
+      alt: 'CRM activity audit log with customer, module and status data',
+    },
+    content: (
+      <div id="crm-audit" className="grid gap-8 lg:grid-cols-2">
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">What the log records</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">Each row includes track ID, date, customer ID, module, action, success or failure status and notes. Logged areas include customers, service, complaints, AMC, invoices, payments and imports.</p>
+        </div>
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Find and share activity</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">Filter the audit history by customer, module or date range, refresh the results and export the log to Excel for review.</p>
+        </div>
+      </div>
+    ),
+  },
+];
+
+const CUSTOMER_360_SECTIONS: WorkflowGuideSection[] = [
+  {
+    number: '01',
+    title: 'See the customer at a glance',
+    intro: 'Customer 360 is the Customers workspace inside CRM, not a separate record system. It brings the key installation facts into one view.',
+    nav: 'Overview',
+    image: {
+      src: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Customer 360 dashboard bringing solar project information together',
+    },
+    content: (
+      <div id="customer360-overview" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {[
+          ['Plant capacity', 'Installed system size in kW.'],
+          ['Customer status', 'Current operating or service status.'],
+          ['Panel module', 'Panel brand matched from proposal data.'],
+          ['Structure design', 'Installation type associated with the project.'],
+        ].map(([title, text]) => <div key={title} className="border-t-2 border-[#244337] pt-4"><h4 className="text-[13px] font-bold text-[#203a30]">{title}</h4><p className="mt-2 text-[13px] leading-[1.7] text-[#606b62]">{text}</p></div>)}
+      </div>
+    ),
+  },
+  {
+    number: '02',
+    title: 'Review the customer profile and take action',
+    intro: 'Selecting a customer fills the profile with identifying, installation and contact information alongside common service actions.',
+    nav: 'Profile and actions',
+    image: {
+      src: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Customer operations team reviewing a solar customer profile',
+    },
+    content: (
+      <div id="customer360-profile" className="grid gap-8 lg:grid-cols-2">
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Customer command view</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">Review the customer&apos;s name, capacity, installation date, location, contact, address and status without searching through separate windows.</p>
+        </div>
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Three direct actions</h4>
+          <ul className="space-y-2 text-[13px] leading-[1.7] text-[#606b62]">
+            <li><strong className="text-[#203a30]">Update Status</strong> to reflect the current customer situation.</li>
+            <li><strong className="text-[#203a30]">Raise Complaint</strong> to create a tracked issue.</li>
+            <li><strong className="text-[#203a30]">Add Service</strong> to move into service management.</li>
+          </ul>
+        </div>
+      </div>
+    ),
+  },
+  {
+    number: '03',
+    title: 'Identify installed equipment',
+    intro: 'Panel and inverter information is matched from the customer’s proposal so the team can identify installed equipment quickly.',
+    nav: 'Equipment',
+    image: {
+      src: 'https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Solar modules representing equipment linked to a customer proposal',
+    },
+    content: (
+      <div id="customer360-equipment" className="grid gap-6 lg:grid-cols-2">
+        {[
+          ['Panel tile', 'Brand logo or initials, brand name, product type, wattage, quantity and plant capacity.'],
+          ['Inverter tile', 'Brand logo or initials, brand name, product type, model details and quantity.'],
+        ].map(([title, text]) => <div key={title} className="border-t border-[#203a30]/12 pt-4"><h4 className="text-[14px] font-bold text-[#203a30]">{title}</h4><p className="mt-2 text-[13px] leading-[1.8] text-[#606b62]">{text}</p></div>)}
+        <div className="lg:col-span-2 border-l-2 border-[#8b6744] bg-[#f0ede6] px-5 py-4">
+          <h4 className="mb-2 text-[13px] font-bold text-[#203a30]">How records are matched</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">The lookup prioritizes proposal ID, then phone number, customer name and capacity. Brand marks load from local logo assets when available, with initials as a fallback.</p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    number: '04',
+    title: 'Preview the installation type',
+    intro: 'A project image helps the team understand the site setup before planning a service visit or dispatching a technician.',
+    nav: 'Structure preview',
+    image: {
+      src: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Solar installation type preview for a customer site',
+    },
+    content: (
+      <div id="customer360-structure" className="grid gap-8 lg:grid-cols-2">
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Site setup context</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">The structure preview uses the installation type image associated with the matched proposal, with a caption for installation type, structure type and proposal reference.</p>
+        </div>
+        <div>
+          <h4 className="mb-3 text-[14px] font-bold text-[#203a30]">Useful before a visit</h4>
+          <p className="text-[13px] leading-[1.8] text-[#606b62]">Rooftop RCC, ground-mount and sloped-roof systems each have different access and mounting context. A visual cue helps field teams arrive prepared for the expected installation.</p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    number: '05',
+    title: 'Load the full picture on selection',
+    intro: 'Customer selection refreshes profile information, summary metrics, matched equipment, structure image and available actions together.',
+    nav: 'Refresh and benefits',
+    image: {
+      src: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Solar support team coordinating customer installation information',
+    },
+    content: (
+      <div id="customer360-refresh" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {[
+          ['One-click view', 'See core project details without switching modules.'],
+          ['Linked equipment', 'Use proposal data to identify panel and inverter brands.'],
+          ['Installation visual', 'Give technicians context about the site structure.'],
+          ['Fast service actions', 'Update status, raise a complaint or add a service record.'],
+        ].map(([title, text]) => <div key={title} className="border-t border-[#203a30]/12 pt-4"><h4 className="text-[13px] font-bold text-[#203a30]">{title}</h4><p className="mt-2 text-[13px] leading-[1.7] text-[#606b62]">{text}</p></div>)}
+      </div>
+    ),
+  },
+];
+
+function StructureDesignerGuide() {
+  return <WorkflowModuleGuide eyebrow="Structure Designer / Customer purpose" title="Engineer the mounting structure before installation" description="Link the design to the customer proposal, calculate a site-specific mounting frame, review its wind and roof checks, then save and share the engineering record." navLabel="Structure Designer guide sections" sections={STRUCTURE_DESIGNER_SECTIONS} />;
+}
+
+function CRMGuide() {
+  return <WorkflowModuleGuide eyebrow="CRM / Customer operations" title="Manage the customer relationship after the proposal" description="Keep customer records, service visits, complaints, maintenance schedules, invoices and activity history connected in one operational workspace." navLabel="CRM guide sections" sections={CRM_SECTIONS} />;
+}
+
+function Customer360Guide() {
+  return <WorkflowModuleGuide eyebrow="Customer 360 / CRM Customers workspace" title="See the complete customer installation in one view" description="Customer 360 brings project capacity, customer status, equipment brands, installation type and common service actions together as soon as a customer is selected." navLabel="Customer 360 guide sections" sections={CUSTOMER_360_SECTIONS} />;
+}
+
 export default function WorkflowPage() {
   const [activeIdx, setActiveIdx] = useState(0);
   const [animating, setAnimating] = useState(false);
@@ -852,6 +1379,9 @@ export default function WorkflowPage() {
 
         {activeIdx === 0 && <ProposalGuide />}
         {activeIdx === 1 && <InstallationTrackerGuide />}
+        {activeIdx === 2 && <StructureDesignerGuide />}
+        {activeIdx === 3 && <CRMGuide />}
+        {activeIdx === 4 && <Customer360Guide />}
       </main>
 
       <Footer />
